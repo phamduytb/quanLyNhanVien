@@ -1,0 +1,74 @@
+.header {
+    height: 56px;
+    background-color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: roboto-medium;
+    padding: 0 16px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .icon-collapse {
+    background-position: -843px -30px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.header-left .company-name {
+    /* margin-right: 2px; */
+    cursor: pointer;
+}
+
+.header-left .icon-arrow__left {
+    background-position:  -1124px -356px;
+    margin-left: 2px;
+    cursor: pointer;
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; */
+}
+
+/* .header-left .icon-arrow__left i {
+    font-weight: 600;
+    position: relative;
+    top: 1px;
+    font-size: 16px;
+} */
+
+
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right .icon-bell {
+    background-position: -788px -30px;
+    margin-right: 24px;
+    cursor: pointer;
+}
+
+.header-right .avatar {
+    width: 32px;
+    height: 32px;
+    background-position: -352px -894px;
+    border-radius: 50%;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.header-right .user-name {
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.header-right .icon-arrow__right {
+    background-position: -461px -403px;
+    cursor: pointer;
+}

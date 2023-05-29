@@ -1,0 +1,95 @@
+
+.content {
+    height: calc(100% - 56px);
+    background-color: #EEEFF1;
+    padding: 0 24px 24px 24px;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+}
+
+.content-header__left {
+    font-family: roboto-bold;
+    font-size: 24px;
+}
+
+.content-table {
+    background-color: var(--white-background-color);
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 68px);
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding: 12px 20px 12px 0;
+    column-gap: 12px;
+    
+}
+
+.table-header .btn-refresh {
+    width: 36px;
+    height: 36px;
+    border: unset;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.icon-loading {
+
+    background-position: -1096px -88px;
+}
+
+.table-main {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.table-footer {
+    display: flex;
+    height: 56px;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-footer__left {
+
+}
+
+.table-footer__left span {
+    font-family: roboto-bold;
+}
+
+.table-footer__right {
+    display: flex;
+    column-gap: 16px;
+    align-items: center;
+}
+
+.table-footer__right .combobox__data {
+    top: -196px;
+    box-shadow: 2px -2px 15px #333;
+}
+
+.table-footer__right .btn-title {
+    border: unset;
+    background-color: var(--white-background-color);
+    cursor: pointer;
+    font-family: roboto-regular;
+    font-size: 14px;
+}
+
+.table-footer__right .btn-choice-page {
+    border: unset;
+    background-color: var(--white-background-color);
+    cursor: pointer;
+    font-family: roboto-regular;
+    font-size: 14px;
+}

@@ -1,0 +1,114 @@
+table {
+   border-collapse: collapse;
+}
+
+th, td {
+    border-right: 1px solid var(--table-border-color);
+    border-bottom: 1px solid var(--table-border-color);
+}
+
+td, th {
+    height: 48px;
+    padding: 0 16px;
+}
+
+th {
+    background-color: #d6d6d6;
+    position: sticky !important;
+    border-top: none;
+    z-index: 2;
+    top: 0;
+}
+
+th:first-child {
+    left: 0;
+    z-index: 4;
+   
+}
+
+th:first-child + th {
+   
+}
+
+th:last-child {
+    right: 0;
+    z-index: 4;
+    border-right: none;
+    border-left: 1px solid var(--table-border-color);
+}
+
+th input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+td {
+    background-color: var(--white-background-color);
+}
+
+td input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    
+}
+
+.td-last {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    
+    border-right: none;
+    border-left: 1px solid var(--table-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+}
+
+.td-last .td-button {
+    background-color: var(--white-background-color);
+    border: none;
+    padding: 0;
+    font-family: roboto-regular;
+    font-size: 14px;
+    color: #0075c0;
+    cursor: pointer;
+}
+
+.td-last .td-button:focus {
+    border: 1px solid #0075c0;
+}
+
+/* .btn-function {
+    position: relative;
+} */
+
+.list-function {
+    display: flex;
+    /* display: none; */
+    flex-direction: column;
+    width: 120px;
+    background-color: var(--white-background-color);
+    position: absolute;
+    top: calc(100% + 2px);
+    right: -10px;
+    z-index: 999;
+    /* border: 1px solid #ccc; */
+    border: none;
+    padding: 8px;
+    box-shadow: 2px 2px 15px #333;
+    border-radius: 4px;
+
+}
+
+.item-function {
+    /* z-index: 100; */
+}
