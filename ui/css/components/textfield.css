@@ -60,7 +60,7 @@
 }
 
 .textfield__input--required {
-    border-color: var(--required-color);
+    border-color: var(--required-color) !important;
 }
 
 .textfield__message{
@@ -68,7 +68,8 @@
     font-size: 12px;
     color: var(--required-color);
     margin-top: 8px;
-    bottom: -20px;
+    bottom: -18px;
+    display: none;
 }
 
 .icon-search {

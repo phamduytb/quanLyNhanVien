@@ -291,12 +291,12 @@
                                     </label>
                                 </div>
                                 
-                                <input type="text" id="input-code-employee" class="textfield__input" tabindex="1"/>
+                                <input type="text" required id="input-employeeCode" class="textfield__input"  tabindex="1"/>
                                 <!-- <div class="input-error--message hide-text-ellipsis" title="Mã nhân viên không được để trống">
                                     Mã nhân viên không được để trống
                                 </div> -->
 
-                                <!-- <span class="textfield__message">Mã  không được để trống</span> -->
+                                <span class="textfield__message">Mã không được để trống</span>
                                 
                             </div>
 
@@ -308,12 +308,12 @@
                                     </label>
                                 </div>
                                 
-                                <input type="text" id="" class="textfield__input   input-name" tabindex="2"/>
+                                <input type="text" required id="input-employeeName" class="textfield__input   input-name" tabindex="2"/>
                                 <!-- <div class="input-error--message hide-text-ellipsis" title="Mã nhân viên không được để trống">
                                     Tên nhân viên không được để trống
                                 </div> -->
 
-                                <!-- <span class="textfield__message">Tên nhân viên không được để trống</span> -->
+                                <span class="textfield__message">Tên không được để trống</span>
                                 
                             </div>
 
@@ -325,11 +325,8 @@
                                     </label>
                                 </div>
                                 
-                                <div class="combobox ">
+                                <!-- <div class="combobox ">
                                     <input type="text" class="combobox__input" tabindex="3">
-                                    <!-- <div class="combobox__icon">
-                                        <div class="icon arrow-down"></div>
-                                    </div> -->
                                     <div class="combobox__icon"><i class="icofont-caret-down"></i></div>
                                     <div class="combobox__data">
                                         <a class="data-item">Phòng nhân sự</a>
@@ -338,12 +335,19 @@
                                         <a class="data-item">Phòng sản xuất</a>
                     
                                     </div>
-                                </div>
+                                </div> -->
+                                <select name="" required id="input-department" tabindex="3">
+                                    <option value="">---Chọn phòng ban---</option>
+                                    <option value="Phòng nhân sự">Phòng nhân sự</option>
+                                    <option value="Phòng tuyển sinh">Phòng tuyển sinh</option>
+                                    <option value="Phòng đào tạo">Phòng đào tạo</option>
+                                    <option value="Phòng sản xuất">Phòng sản xuất</option>
+                                </select>
                                 <!-- <div class="input-error--message hide-text-ellipsis" title="Mã nhân viên không được để trống">
                                     Đơn vị không được để trống
                                 </div> -->
 
-                                <!-- <span class="textfield__message">Đơn vị không được để trống</span> -->
+                                <span class="textfield__message">Đơn vị không được để trống</span>
                                 
                             </div>
 
@@ -354,7 +358,7 @@
                                     </label>
                                 </div>
                                 
-                                <input type="text" id="" class="textfield__input  input-job" tabindex="4"/>
+                                <input type="text" id="input-employeePosition" class="textfield__input  input-job" tabindex="4"/>
                                 
                                 
                             </div>
@@ -370,7 +374,7 @@
                                         </label>
                                     </div>
                                     
-                                    <input type="date" id="" class="textfield__input  input-brith" tabindex="5"/>
+                                    <input type="date" id="input-dateOfBirth" class="textfield__input  input-brith" tabindex="5"/>
                                 </div>
                                 <div class="textfield-container el-gender width-60">
                                     <div class="textfield__header">
@@ -410,7 +414,7 @@
                                         </label>
                                     </div>
                                     
-                                    <input type="text" id="" class="textfield__input input-identity" tabindex="9"/>
+                                    <input type="text" id="input-identityNumber" class="textfield__input" tabindex="9"/>
                                     
                                     
                                 </div>
@@ -422,17 +426,17 @@
                                         </label>
                                     </div>
                                     
-                                    <input type="date" id="" class="textfield__input  input-releasedate" tabindex="10"/>
+                                    <input type="date" id="input-releaseDate" class="textfield__input " tabindex="10"/>
                                 </div>
                            </div>  
-                           <div class="textfield-container el-adr-release width-100">
+                           <div class="textfield-container el-releaseAddress width-100">
                                 <div class="textfield__header">
                                     <label for="" class="textfield-label">
                                         Nơi cấp
                                     </label>
                                 </div>
                             
-                                <input type="text" id="" class="textfield__input input-adr-release" tabindex="11"/>
+                                <input type="text" id="input-releaseAddress" class="textfield__input " tabindex="11"/>
                             
                             
                             </div>
@@ -448,7 +452,7 @@
                                 </label>
                             </div>
                         
-                            <input type="text" id="" class="textfield__input input-address" tabindex="12"/>                      
+                            <input type="text" id="input-address" class="textfield__input" tabindex="12"/>                      
                         </div>
 
                         <div class="contact-bank">
@@ -460,7 +464,7 @@
                                     </label>
                                 </div>
                             
-                                <input type="text" id="" class="textfield__input input-mobiephone" tabindex="13"/>
+                                <input type="text" id="input-mobiephone" class="textfield__input " tabindex="13"/>
                             </div>
     
                             <div class="textfield-container landline">
@@ -471,7 +475,7 @@
                                     </label>
                                 </div>
                             
-                                <input type="text" id="" class="textfield__input input-landline" tabindex="14"/>
+                                <input type="text" id="input-landline" class="textfield__input" tabindex="14"/>
                             </div>
     
                             <div class="email-container">
@@ -482,7 +486,7 @@
                                         </label>
                                     </div>
                                 
-                                    <input type="text" id="" class="textfield__input input-email"tabindex="15" />
+                                    <input type="text" id="input-email" class="textfield__input"tabindex="15" />
                                 </div>
                             </div>
                             
@@ -494,7 +498,7 @@
                                     </label>
                                 </div>
                             
-                                <input type="text" id="" class="textfield__input " tabindex="16"/>
+                                <input type="text" id="input-bankAccount" class="textfield__input " tabindex="16"/>
                             </div>
     
                             <div class="textfield-container bank-name">
@@ -504,7 +508,7 @@
                                     </label>
                                 </div>
                             
-                                <input type="text" id="" class="textfield__input " tabindex="17"/>
+                                <input type="text" id="input-bankName" class="textfield__input " tabindex="17"/>
                             </div>
     
                             <div class="textfield-container bank-branch">
@@ -514,7 +518,7 @@
                                     </label>
                                 </div>
                             
-                                <input type="text" id="" class="textfield__input " tabindex="18"/>
+                                <input type="text" id="input-branch" class="textfield__input " tabindex="18"/>
                             </div>
                         </div>
 
@@ -523,15 +527,15 @@
 
                 <div class="form-footer">
                     <div class="form-footer__left">
-                        <button class="btn btn--secondary cancel-form btn-cancel" tabindex="21">Hủy</button>
+                        <button id="" class="btn btn--secondary cancel-form btn-cancel" tabindex="21">Hủy</button>
                     </div>
 
                     <div class="form-footer__right">
-                        <button class="btn btn--secondary store-form tooltip" tabindex="19">
+                        <button id="store-form" class="btn btn--secondary  tooltip" tabindex="19">
                             Cất
                             <div class="tooltip-text">Cất (Ctrl + S)</div>
                         </button>
-                        <button class="btn  store-add-form tooltip" tabindex="20">
+                        <button id="store-add-form" class="btn tooltip" tabindex="20">
                             Cất và Thêm mới
                             <div class="tooltip-text">Cất và thêm (Ctrl + shift + S)</div>
                         </button>
@@ -594,29 +598,29 @@
     <!----------end dialog  xóa----------->
 
      <!-- start dialog cảnh báo 1 trường không được để trống trong form -->
-     <!-- <div id="dialog-warning"class="dialog-container">
+     <div id="dialog-empty-field"class="dialog-container">
         <div class="dialog-wrapper">
             <div class="dialog-header">
                 <div class="dialog-header__title">Dữ liệu không hợp lệ</div>
-                <button id="dialog-warning--close" class="icon-24 dialog-header__icon tooltip">
+                <!-- <button id="dialog-warning--close" class="icon-24 dialog-header__icon tooltip">
                     <i class="icofont-close-line"></i>
                     <div class="tooltip-text">Đóng (ESC)</div>
-                </button>
+                </button> -->
             </div>
             <div class="dialog-body">
                 <div class="icon  dialog-body__icon icon--warning"></div>
-                <div class="dialog-body__detail">Tên không được để trống.</div>
+                <div class="dialog-body__detail"></div>
                 
             </div>
             <div class="dialog-footer dialog-wraning__footer">
-                <button id="btn-dialog--warning" class="btn">Đóng</button>
+                <button id="" class="btn btn-close">Đóng</button>
             </div>
         </div>
-    </div> -->
+    </div>
      <!-- end dialog cảnh báo 1 trường không được để trống trong form -->
 
      <!-- start dialog trùng mã nhân viên -->
-    <div id="dialog-duplicate-code"class="dialog-container">
+    <!-- <div id="dialog-duplicate-code"class="dialog-container">
         <div class="dialog-wrapper">
             <div class="dialog-header">
                 <div class="dialog-header__title">Dữ liệu không hợp lệ</div>
@@ -634,7 +638,7 @@
                 <button id="btn-dialog--warning" class="btn">Đóng</button>
             </div>
         </div>
-    </div>
+    </div> -->
      <!-- end dialog trùng mã nhân viên -->
 
      <!-- Hiển thị loading trước khi lấy được dữ liệu -->
