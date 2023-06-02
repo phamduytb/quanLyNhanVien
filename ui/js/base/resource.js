@@ -1,8 +1,8 @@
-// resource lưu trữ text, không nên fix cứng text vào code
+// resource lưu trữ text, không nên fix cứng text vào cod e
 
 /**
  * Tùy biến các thông báo
- * CreatedBy PDDUY (26/05/2023)
+ * CreatedBy Phạm Đình Duy (26/05/2023)
  */
 var MISAResouce = {
   vi: {

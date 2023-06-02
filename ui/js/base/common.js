@@ -2,9 +2,9 @@
 
 /**
  * Chuyển dữ liệu ngày tháng về dạng dd/mm/yyyy
- * CreatedBy PDDUY (26/05/2023)
+ * Author: Phạm Đình Duy (26/05/2023)
  */
-function fomatDate(dateTime) {
+function formatDate(dateTime) {
   try {
     //if (datetime) kiểm tra giá trị datetime khác các giá trị falsy:  undefined, null, false, 0, -0, 0n, NaN, "".
     if (dateTime) {
@@ -27,7 +27,7 @@ function fomatDate(dateTime) {
 
 /**
  * Định dạng tiền tệ
- * CreatedBy PDDUY (26/05/2023)
+ * Author: Phạm Đình Duy (26/05/2023)
  */
 function formatMoney(money) {
   try {
@@ -39,6 +39,24 @@ function formatMoney(money) {
     );
   } catch (error) {
     console.log(error);
+    return "";
+  }
+}
+
+/**
+ * Xử lý giới tính
+ * Author: Phạm Đình Duy (01/06/2023)
+ */
+function formatGender(gender) {
+  if (gender) {
+    if (gender == "0") {
+      return "Nam";
+    } else if (gender == "1") {
+      return "Nữ";
+    } else {
+      return "Khác"
+    }
+  } else {
     return "";
   }
 }

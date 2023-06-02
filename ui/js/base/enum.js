@@ -1,5 +1,3 @@
-// enum
-
 
 var MISAEnum = {
     Gender: {

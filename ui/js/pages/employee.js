@@ -1,12 +1,10 @@
-var apiEmployee = "http://localhost:3000/Employees";
+let apiEmployee = "https://cukcuk.manhnv.net/api/v1/Employees";
 /**
  * Hàm tự động chạy khi load trang load xong
- * Author: PDDUY (26/05/2023)
+ * Author: Phạm Đình Duy (26/05/2023)
  */
 $(document).ready(function () {
-  //Load dữ liệu danh sách nhân viên
   loadData();
-  //Tạo sự kiện cho các thành phần trong page
   initEvents();
 });
 
@@ -16,57 +14,73 @@ $(document).ready(function () {
  */
 function loadData() {
   try {
-    // Gọi API lấy dữ liệu
-    fetch(apiEmployee)
-      .then((res) => res.json())
-      .then((data) => {
-        // Hiển thị loading
-        $(".loading").show();
-        // Xóa dữ liệu có sẵn trong bảng
-        $("table#tbEmployeeList tbody").empty();
-        // Lấy ra từng employee trong danh sách employee nhận được từ API
-        for (const employee of data) {
-          let employeeCodde = employee.EmployeeCode;
-          let fullName = employee.FullName;
-          let gender = employee.GenderName;
-          let dateOfBirth = employee.DateOfBirth;
-          let identityNumber = employee.IdentityNumber;
-          let positionName = employee.PositionName;
-          let departmentName = employee.DepartmentName;
+    //Hiển thị loading trước khi dữ liệu được load lên bảng
+    $(".loading").show();
 
-          //Định dạng dữ liệu ngày tháng: Chuyển thành dd/mm/yyyy
-          dateOfBirth = fomatDate(dateOfBirth);
-          //Định dạng dữ liệu tiền tệ
+    //Gọi API lấy dữ liệu
+    $.ajax({
+      type: "GET",
+      url: "https://cukcuk.manhnv.net/api/v1/Employees",
+      success: function (response) {
+        //Xóa hết dữ liệu có sẵn trong bảng
+        $("#tbEmployeeList tbody").empty();
+        //Duyệt qua từng employee lấy được từ API
+        for (const emp of response) {
+          let employeeId = emp.EmployeeId;
+          let employeeCode = emp.EmployeeCode;
+          let fullName = emp.FullName;
+          let gender = emp.GenderName;
+          let dateOfBirth = emp.DateOfBirth;
+          dateOfBirth = formatDate(dateOfBirth);
+          let identityNumber = emp.IdentityNumber;
+          let positionName = emp.PositionName;
+          let departmentName = emp.DepartmentName;
+          let bankAccountNumber = emp.BankAccountNumber;
+          let bankName = emp.BankName;
+          let bankBranchName = emp.BankBranchName;
 
-          // tạo phần tử trHTML là 1 hàng trong phần tbody của bảng
-          let trHTML = `<tr>
-                                <td ><input type="checkbox"></td>
-                                <td>${employeeCodde || ""}</td>
-                                <td>${fullName || ""}</td>
-                                <td>${gender || ""}</td>
-                                <td  class="text-align--center">${
-                                  dateOfBirth || ""
-                                }</td>
-                                <td>${identityNumber || ""}</td>
-                                <td>${positionName || ""}</td>
-                                <td>${departmentName || ""}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="td-last">
-                                        <button class="td-button fix-function">Sửa</button>
-                                        <button class="td-button btn-function"><i class="icofont-caret-down"></i></button>
-                                </td>
-                            </tr>`;
-          //Chèn phần tử trHTML vào cuối phần tbody của bảng nhân viên
-          $("table#tbEmployeeList tbody").append(trHTML);
+          trHTML = `<tr>
+                      <td ><input type="checkbox"></td>
+                      <td>${employeeCode || ""}</td>
+                      <td>${fullName || ""}</td>
+                      <td>${gender || ""}</td>
+                      <td  class="text-align--center">${dateOfBirth || ""}</td>
+                      <td>${identityNumber || ""}</td>
+                      <td>${positionName || ""}</td>
+                      <td>${departmentName || ""}</td>
+                      <td>${bankAccountNumber || ""}</td>
+                      <td>${bankName || ""}</td>
+                      <td>${bankBranchName || ""}</td>
+                      <td class="td-last">
+                              <button class="td-button fix-function">Sửa</button>
+                              <button class="td-button btn-function"><i class="icofont-caret-down"></i></button>
+                      </td>
+                    </tr>`;
+
+          $("#tbEmployeeList tbody").append(trHTML);
+          let totalRecord = `
+                            Tổng số :
+                            <b>${response.length}</b>
+                            bản ghi
+                          </div>`;
+          $(".table-footer__left").empty();
+          $(".table-footer__left").append(totalRecord);
+          // Ẩn loading
+          $(".loading").hide();
         }
-        // Ẩn loading
-        $(".loading").hide();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      },
+      error: function (error) {
+        let statusCode = error.status;
+        switch (statusCode) {
+          case 400:
+            break;
+          case 500:
+            break;
+          default:
+            break;
+        }
+      },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -82,8 +96,14 @@ function initEvents() {
     try {
       $("#btn-add-employee").click(function () {
         $("#form-employee").css("display", "flex");
+        //Lấy mã nhân viên mới
+        // debugger;
+        let newEmployeeCode = getNewEmployeeCode();
+        console.log(newEmployeeCode);
+        $("#input-employeeCode").val(newEmployeeCode);
         // focus vào ô nhập liệu đầu tiên
         $("#input-employeeCode").focus();
+        //lấy danh sách phòng ban từ api
       });
     } catch (error) {
       console.log(error);
@@ -157,30 +177,25 @@ function initEvents() {
 }
 
 /**
- * Lấy ra thông tin của nhân viên được nhập từ form
- * Author: PDDUY (30/05/2023)
- * @returns {employee}: Trả về 1 nhân viên được nhập từ form
+ * Tự động lấy ra một mã nhân viên mới khi mở form thêm mới nhân viên
+ * Author : PDDUY (31/05/2023)
  */
-function getEmployee() {
-  let employeeCode = $("#input-employeeCode").val();
-  let fullName = $("#input-employeeName").val();
-  let departmentName = $("#input-department").val();
-  let positionName = $("#input-employeePosition").val();
-  // let gender = $("#input-employeeCode").val();
-  let dateOfBirth = $("#input-dateOfBirth").val();
-  let identityNumber = $("#input-identityNumber").val();
-  
-  let employee = {
-    EmployeeCode: employeeCode,
-    FullName: fullName,
-    DepartmentName: departmentName,
-    // GenderName: gender,
-    DateOfBirth: dateOfBirth,
-    IdentityNumber: identityNumber,
-    PositionName: positionName,
-    
-  };
-  return employee;
+function getNewEmployeeCode() {
+  try {
+    let employeeCode;
+    fetch("https://cukcuk.manhnv.net/api/v1/Employees/NewEmployeeCode")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        employeeCode = data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return employeeCode;
+  } catch (error) {
+    console.log(error);
+  }
 }
 /**
  * Hiển thị cảnh báo dưới các trường bắt buộc của form khi người dùng không nhập dữ liệu
@@ -241,6 +256,36 @@ function showEmptyFieldDialog(employee) {
   } catch (error) {
     console.log(error);
   }
+}
+
+/**
+ * Lấy ra thông tin của nhân viên được nhập từ form
+ * @returns {employee}: Trả về 1 nhân viên được nhập từ form
+ * Author: PDDUY (30/05/2023)
+ */
+function getEmployee() {
+  let employeeCode = $("#input-employeeCode").val();
+  let fullName = $("#input-employeeName").val();
+  let departmentName = $("#input-department option").filter(":selected").val();
+  let positionName = $("#input-employeePosition").val();
+  let gender = $("input[type='radio'][name='gender']:checked").val();
+  let dateOfBirth = $("#input-dateOfBirth").val();
+  let identityNumber = $("#input-identityNumber").val();
+  let identityDate = $("#input-identityDate").val();
+  let identityPlace = $("#input-identityPlace").val();
+
+  let employee = {
+    EmployeeCode: employeeCode,
+    FullName: fullName,
+    DepartmentName: departmentName,
+    PositionName: positionName,
+    Gender: gender,
+    DateOfBirth: dateOfBirth,
+    IdentityNumber: identityNumber,
+    IdentityDate: identityDate,
+    IdentityPlace: identityPlace,
+  };
+  return employee;
 }
 
 /**
