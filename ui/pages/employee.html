@@ -259,7 +259,7 @@
             <div class="form-wrapper">
                 <div class="form-header">
                     <div class="form-header__left">
-                        <div id="form-employee-title"class="form-title">Thông tin nhân viên</div>
+                        <div id="form-employee-title"class="form-title"></div>
                         <label class="container-identity">
                             Là khách hàng
                             <input type="checkbox" >
@@ -274,7 +274,7 @@
                         <button class="icon icon-24 icon-form icon-help tooltip">
                             <div class="tooltip-text">Giúp (F1)</div>
                         </button>
-                        <button  class="icon icon-24 icon-form icon-exit tooltip btn-x">
+                        <button  class="icon icon-24 icon-form icon-exit tooltip btn-x btn-cancel">
                             <div class="tooltip-text">Đóng (ESC)</div>
                         </button>
                     </div>
@@ -291,7 +291,7 @@
                                     </label>
                                 </div>
                                 
-                                <input type="text" required id="input-employeeCode" class="textfield__input"  tabindex="1"/>
+                                <input type="text"  id="input-employeeCode" class="textfield__input enter-required"  tabindex="1"/>
                                 <!-- <div class="input-error--message hide-text-ellipsis" title="Mã nhân viên không được để trống">
                                     Mã nhân viên không được để trống
                                 </div> -->
@@ -308,7 +308,7 @@
                                     </label>
                                 </div>
                                 
-                                <input type="text" required id="input-employeeName" class="textfield__input   input-name" tabindex="2"/>
+                                <input type="text" required id="input-employeeName" class="textfield__input  input-name enter-required" tabindex="2"/>
                                 <!-- <div class="input-error--message hide-text-ellipsis" title="Mã nhân viên không được để trống">
                                     Tên nhân viên không được để trống
                                 </div> -->
@@ -325,7 +325,7 @@
                                     </label>
                                 </div>
                                 
-                                <!-- <div class="combobox ">
+                                <!-- <div class="combobox combobox-department">
                                     <input type="text" class="combobox__input" tabindex="3">
                                     <div class="combobox__icon"><i class="icofont-caret-down"></i></div>
                                     <div class="combobox__data">
@@ -336,12 +336,8 @@
                     
                                     </div>
                                 </div> -->
-                                <select name="" required id="input-department" tabindex="3">
-                                    <option value="">---Chọn phòng ban---</option>
-                                    <option value="AB88">Phòng Nhân Sự</option>
-                                    <option value="NL20">Phòng Công Nghệ Thông Tin</option>
-                                    <option value="VT66">Phòng Hành Chính"</option>
-                                    <option value="IU61">Phòng Kế Toán</option>
+                                <select name="" required id="input-department" class="select-option enter-required" tabindex="3">
+                                    
                                 </select>
                                 <!-- <div class="input-error--message hide-text-ellipsis" title="Mã nhân viên không được để trống">
                                     Đơn vị không được để trống
@@ -358,8 +354,10 @@
                                     </label>
                                 </div>
                                 
-                                <input type="text" id="input-employeePosition" class="textfield__input  input-job" tabindex="4"/>
-                                
+                                <!-- <input type="text" id="input-employeePosition" class="textfield__input  input-job" tabindex="4"/> -->
+                                <select name=""  id="input-employeePosition" class="select-option" tabindex="4">
+                                    
+                                </select>
                                 
                             </div>
 
@@ -531,11 +529,11 @@
                     </div>
 
                     <div class="form-footer__right">
-                        <button id="store-form" class="btn btn--secondary  tooltip" tabindex="19">
+                        <button id="save-form" class="btn btn--secondary  tooltip" tabindex="19">
                             Cất
                             <div class="tooltip-text">Cất (Ctrl + S)</div>
                         </button>
-                        <button id="store-add-form" class="btn tooltip" tabindex="20">
+                        <button id="save-add-form" class="btn tooltip" tabindex="20">
                             Cất và Thêm mới
                             <div class="tooltip-text">Cất và thêm (Ctrl + shift + S)</div>
                         </button>
@@ -597,18 +595,18 @@
     </div> -->
     <!----------end dialog  xóa----------->
 
-     <!-- start dialog cảnh báo 1 trường không được để trống trong form -->
-     <div id="dialog-empty-field"class="dialog-container">
+     <!-- start dialog cảnh báo  -->
+     <div id="dialog-warning"class="dialog-container">
         <div class="dialog-wrapper">
             <div class="dialog-header">
                 <div class="dialog-header__title">Dữ liệu không hợp lệ</div>
-                <!-- <button id="dialog-warning--close" class="icon-24 dialog-header__icon tooltip">
+                <button id="dialog-warning--close" class="icon-24 dialog-header__icon tooltip btn-close">
                     <i class="icofont-close-line"></i>
                     <div class="tooltip-text">Đóng (ESC)</div>
-                </button> -->
+                </button>
             </div>
             <div class="dialog-body">
-                <div class="icon  dialog-body__icon icon--warning"></div>
+                <div class="icon  dialog-body__icon "></div>
                 <div class="dialog-body__detail"></div>
                 
             </div>
@@ -617,29 +615,26 @@
             </div>
         </div>
     </div>
-     <!-- end dialog cảnh báo 1 trường không được để trống trong form -->
+     <!-- end dialog cảnh báo  -->
 
-     <!-- start dialog trùng mã nhân viên -->
-    <!-- <div id="dialog-duplicate-code"class="dialog-container">
-        <div class="dialog-wrapper">
-            <div class="dialog-header">
-                <div class="dialog-header__title">Dữ liệu không hợp lệ</div>
-                <button id="dialog-warning--close" class="icon-24 dialog-header__icon tooltip">
-                    <i class="icofont-close-line"></i>
-                    <div class="tooltip-text">Đóng (ESC)</div>
-                </button>
+    
+
+     <!--toast success: Thêm mới nhân viên thành công -->
+    <div id="toast__success" class="toast" hidden>
+        <div class="flex w-full">
+          <div class="flex toast__content" >
+            <div class="icon icon-24 toast-icon--success"></div>
+            <div class="flex toast__desc">
+              <div>
+                <span class="toast__desc--status toast-status--success">Thành công</span>
+                Thêm nhân viên thành công
+              </div>
+              <span class="toast__act"><u>Hoàn tác</u></span>
             </div>
-            <div class="dialog-body">
-                <div class="icon  dialog-body__icon icon--duplicate"></div>
-                <div class="dialog-body__detail">Mã nhân viên &lt;NV-001&gt đã tồn tại trong hệ thống, vui lòng kiểm tra lại.</div>
-                
-            </div>
-            <div class="dialog-footer dialog-wraning__footer">
-                <button id="btn-dialog--warning" class="btn">Đóng</button>
-            </div>
+            <div class="icon icon-24 toast-right-icon"></div>
+          </div>
         </div>
-    </div> -->
-     <!-- end dialog trùng mã nhân viên -->
+      </div>
 
      <!-- Hiển thị loading trước khi lấy được dữ liệu -->
      <div class="loading">

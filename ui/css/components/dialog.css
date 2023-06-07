@@ -95,7 +95,7 @@
 }
 
 /* dialog cảnh báo trường để trống */
-.dialog-body .icon--warning {
+.dialog-body .icon-empty-warning {
     background-position: -752px -462px;
 }
 
@@ -104,6 +104,6 @@
 }
 
 /* dialog trùng mã nhân viên */
-.dialog-body .icon--duplicate {
+.dialog-body .icon-duplicate-wraning {
     background-position: -598px -463px;
 }
