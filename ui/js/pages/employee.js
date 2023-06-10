@@ -47,7 +47,7 @@ function loadData() {
 
           trHTML = `<tr data = "${employeeId}" class = "employee-info">
                       <td ><input type="checkbox"></td>
-                      <td>${employeeCode || ""}</td>
+                      <td class ="employee-code">${employeeCode || ""}</td>
                       <td>${fullName || ""}</td>
                       <td>${gender || ""}</td>
                       <td  class="text-align--center">${dateOfBirth || ""}</td>
@@ -59,13 +59,12 @@ function loadData() {
                       <td>${bankBranchName || ""}</td>
                       <td class="td-last">
                               <button data = "${employeeId}" class="td-button fix-function">Sửa</button>
-                              <button class="td-button btn-function"><i class="icofont-caret-down"></i></button>
+                              <button data = "${employeeId}" class="td-button btn-list-function"><i class="icofont-caret-down"></i></button>
                       </td>
                     </tr>`;
 
           $("#tbEmployeeList tbody").append(trHTML);
-          //???????
-          $(".employee-infor").data("entity", response);
+          // $(".employee-infor").data("entity", response);
           let totalRecord = `
                             Tổng số :
                             <b>${response.length}</b>
@@ -132,7 +131,7 @@ function initEvents() {
     //Bắt sự kiện nút x và nút hủy trên form nhân viên
     $("#form-employee .btn-cancel").click(cancelForm);
 
-    // Bắt sự kiện nút đóng và nút x trên các dialog cảnh báo
+    // Bắt sự kiện nút đóng và nút x trên các dialog
     $(".dialog-container .btn-close").click(hideDialogWarning);
 
     //Bắt sự kiện doubleClick vào 1 bản ghi, hiển thị form sửa nhân viên
@@ -148,7 +147,28 @@ function initEvents() {
       "#tbEmployeeList tr.employee-info .fix-function",
       showEmployeeUpdateForm
     );
-   
+
+    // Sự kiện click nút mũi tên cột chức năng trên bảng nhân viên
+    $(document).on(
+      "click",
+      "#tbEmployeeList tr.employee-info .btn-list-function",
+      showFunctionMenuOnTable
+    );
+
+    //bắt sự kiện click nút load lại dữ liệu
+    $(".btn-refresh").click(function () {
+      try {
+        $("#tbEmployeeList tbody").empty();
+        loadData(); 
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // Sự kiện click ra bên ngoài nút mũi tên cột chức năng trên bảng nhân viên ẩn menu chức năng
+    // $("body").click(function() {
+    //   $("#btn-dropdown-menu").hide();
+    // })
   } catch (error) {
     console.log(error);
   }
@@ -362,12 +382,12 @@ function cancelForm() {
 }
 
 /**
- * Click nút đóng và nút x trên dialog cảnh báo để ẩn chúng đi
+ * Click nút đóng và nút x trên dialog  để ẩn chúng đi
  * Author: Phạm Đình Duy (07/06/2023)
  */
 function hideDialogWarning() {
   try {
-    $("#dialog-warning").hide();
+    $(".dialog-container").hide();
   } catch (error) {
     console.log(error);
   }
@@ -511,8 +531,14 @@ function createEmployee(employee) {
       success: function (response) {
         // Nếu thành công hiển thị thông báo thêm thành công
 
+        let textDialogUpdate = `<div>
+                                    <span class="toast__desc--status toast-status--success">Thành công</span>
+                                    Thêm mới nhân viên
+                                  </div>
+                                  <span class="toast__act"><u>Hoàn tác</u></span>`;
+        $(".toast__desc").empty();
+        $(".toast__desc").append(textDialogUpdate);
         $("#toast__success").show();
-        $("#toast__success .toast__desc div").text("Thêm mới thành công");
         // Sau 3s thông báo tự động ẩn đi
         setTimeout(function () {
           $("#toast__success").hide();
@@ -555,8 +581,14 @@ function updateEmployee(employee, employeeId) {
       dataType: "json",
       success: function (response) {
         // Nếu thành công hiển thị thông báo sửa thành công
+        let textDialogUpdate = `<div>
+                                    <span class="toast__desc--status toast-status--success">Thành công</span>
+                                    Sửa nhân viên
+                                  </div>
+                                  <span class="toast__act"><u>Hoàn tác</u></span>`;
+        $(".toast__desc").empty();
+        $(".toast__desc").append(textDialogUpdate);
         $("#toast__success").show();
-        $("#toast__success .toast__desc div").text("Sửa nhân viên thành công");
         // Sau 3s thông báo tự động ẩn đi
         setTimeout(function () {
           $("#toast__success").hide();
@@ -643,4 +675,67 @@ function showEmployeeUpdateForm() {
   } catch (error) {
     console.log(error);
   }
+}
+
+/**
+ *Click nút mũi tên ở cột chức năng trên bảng danh sách nhân viên
+ * Hiển thị danh sách chức năng để chọn (nhân bản, xóa, ngưng sử dụng)
+ * Author: Phạm Đình Duy (10/06/2023)
+ */
+function showFunctionMenuOnTable() {
+  employeeId = $(this).attr("data");
+  $(".dropdown-menu").offset({
+    top: $(this).offset().top + 30,
+    left: $(this).offset().left - 75,
+  });
+  // Hiển thị menu chức năng
+  $(".dropdown-menu").show();
+  let trTable = $(this).parents("tr");
+  let employeeCode = trTable.find(".employee-code").text();
+  // Chọn chức năng delete hiển thị dialog cảnh báo
+  $("#btn-delete").click(function () {
+    try {
+      $("#dialog-delete").css("display", "flex");
+      $("#dialog-delete .dialog-body__detail").empty();
+      $("#dialog-delete .dialog-body__detail").text(
+        `Bạn có muốn xóa nhân viên <${employeeCode}> không?`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  //click nút có trên dialog cảnh báo xóa để xác nhận xóa
+  $("#btn-delete-yes").click(function () {
+    // $("#dialog--warring").show();
+    $.ajax({
+      type: "DELETE",
+      url: `https://cukcuk.manhnv.net/api/v1/Employees/${employeeId}`,
+      success: function (response) {
+        let textDialogUpdate = `<div>
+                                    <span class="toast__desc--status toast-status--success">Thành công</span>
+                                    Xóa nhân viên
+                                  </div>
+                                  <span class="toast__act"><u>Hoàn tác</u></span>`;
+        $(".toast__desc").empty();
+        $(".toast__desc").append(textDialogUpdate);
+        $("#toast__success").show();
+        //Sau 3s thông báo tự động ẩn đi
+        setTimeout(function () {
+          $("#toast__success").hide();
+        }, 3000);
+        $("#btn-dropdown-menu").hide();
+        $("#dialog-delete").hide();
+
+        loadData();
+      },
+      error: function (error) {},
+    });
+  });
+
+  // click nút x và nút không trên dialog cảnh báo xóa
+  $(".btn-close").click(function () {
+    $("#btn-dropdown-menu").hide();
+    $("#dialog-delete").hide();
+  });
 }

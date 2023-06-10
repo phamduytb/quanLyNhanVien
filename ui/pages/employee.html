@@ -572,30 +572,9 @@
     </div> -->
     <!-- end dialog lưu dữ liệu -->
 
-    <!-----------start dialog  xóa-------------->
-    <!-- <div id="dialog-delete"class="dialog-container">
-        <div class="dialog-wrapper">
-            <div class="dialog-header">
-                <div class="dialog-header__title">Xóa nhân viên?</div>
-                <button id="dialog-delete--close" class="icon-24 dialog-header__icon tooltip">
-                    <i class="icofont-close-line"></i>
-                    <div class="tooltip-text">Đóng (ESC)</div>
-                </button>
-            </div>
-            <div class="dialog-body">
-                <div class="icon dialog-body__icon icon--delete"></div>
-                <div class="dialog-body__detail">Thông tin nhân viên sẽ được xóa khỏi hệ thống.</div>
-                
-            </div>
-            <div class="dialog-footer dialog-delete__footer">
-                <button id="btn-dialog--no"class="btn btn--secondary btn-dialog" tabindex="2">Không</button>
-                <button id="btn-dialog--yes"class="btn btn-dialog" tabindex="1">Có</button>
-            </div>
-        </div>
-    </div> -->
-    <!----------end dialog  xóa----------->
+    
 
-     <!-- start dialog cảnh báo  -->
+     <!-- start dialog cảnh báo dữ liệu không hợp lệ(để trống, mã trùng) -->
      <div id="dialog-warning"class="dialog-container">
         <div class="dialog-wrapper">
             <div class="dialog-header">
@@ -617,24 +596,51 @@
     </div>
      <!-- end dialog cảnh báo  -->
 
-    
+     <!-----------start dialog  xóa-------------->
+     <div id="dialog-delete"class="dialog-container">
+        <div class="dialog-wrapper">
+            <div class="dialog-header">
+                <div class="dialog-header__title">Xóa nhân viên.</div>
+                <button class="icon-24 dialog-header__icon tooltip btn-close">
+                    <i class="icofont-close-line"></i>
+                    <div class="tooltip-text">Đóng (ESC)</div>
+                </button>
+            </div>
+            <div class="dialog-body">
+                <div class="icon dialog-body__icon icon--delete"></div>
+                <div class="dialog-body__detail"></div>
+                
+            </div>
+            <div class="dialog-footer dialog-delete__footer">
+                <button id="btn-delete-no"class="btn btn--secondary btn-dialog btn-close" tabindex="2">Không</button>
+                <button id="btn-delete-yes"class="btn btn-dialog" tabindex="1">Có</button>
+            </div>
+        </div>
+    </div>
+    <!----------end dialog  xóa----------->
 
-     <!--toast success: Thêm mới nhân viên thành công -->
+     <!--toast success: Thêm mới, sửa,xóa... nhân viên thành công -->
     <div id="toast__success" class="toast" hidden>
         <div class="flex w-full">
           <div class="flex toast__content" >
             <div class="icon icon-24 toast-icon--success"></div>
             <div class="flex toast__desc">
-              <div>
-                <span class="toast__desc--status toast-status--success">Thành công</span>
-                
-              </div>
-              <span class="toast__act"><u>Hoàn tác</u></span>
+              
             </div>
             <div class="icon icon-24 toast-right-icon"></div>
           </div>
         </div>
       </div>
+
+
+      <!-- Danh danh sách các chức năng trên bảng -->
+    <div id="btn-dropdown-menu" class="dropdown-menu" hidden>
+        <ul class="dropdown-list">
+          <li class="dropdown-item">Nhân bản</li>
+          <li id="btn-delete" class="dropdown-item">Xóa</li>
+          <li class="dropdown-item">Ngừng sử dụng</li>
+        </ul>
+    </div>
 
      <!-- Hiển thị loading trước khi lấy được dữ liệu -->
      <div class="loading">
