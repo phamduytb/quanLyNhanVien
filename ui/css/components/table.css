@@ -2,6 +2,12 @@ table {
    border-collapse: collapse;
 }
 
+table tr:hover td,
+table tr:hover .td-button{
+    background-color: var(--table-hover-color);
+    cursor: pointer;
+}
+
 th, td {
     border-right: 1px solid var(--table-border-color);
     border-bottom: 1px solid var(--table-border-color);
@@ -46,6 +52,10 @@ th input {
 td {
     background-color: var(--white-background-color);
 }
+
+/* tbody tr:hover .td-last{
+    background-color: var(--secondary-hover-color);
+} */
 
 td input {
     width: 16px;

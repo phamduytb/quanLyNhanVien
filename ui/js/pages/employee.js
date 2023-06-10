@@ -45,7 +45,7 @@ function loadData() {
           let bankName = emp.BankName;
           let bankBranchName = emp.BankBranchName;
 
-          trHTML = `<tr>
+          trHTML = `<tr data = "${employeeId}" class = "employee-info">
                       <td ><input type="checkbox"></td>
                       <td>${employeeCode || ""}</td>
                       <td>${fullName || ""}</td>
@@ -58,12 +58,14 @@ function loadData() {
                       <td>${bankName || ""}</td>
                       <td>${bankBranchName || ""}</td>
                       <td class="td-last">
-                              <button class="td-button fix-function">Sửa</button>
+                              <button data = "${employeeId}" class="td-button fix-function">Sửa</button>
                               <button class="td-button btn-function"><i class="icofont-caret-down"></i></button>
                       </td>
                     </tr>`;
 
           $("#tbEmployeeList tbody").append(trHTML);
+          //???????
+          $(".employee-infor").data("entity", response);
           let totalRecord = `
                             Tổng số :
                             <b>${response.length}</b>
@@ -99,7 +101,7 @@ function loadData() {
 function initEvents() {
   try {
     // Bắt sự kiện cho nút thêm mới nhân viên
-    $("#btn-add-employee").click(addEmployeeBtn);
+    $("#btn-add-employee").click(showEmployeeAddForm);
 
     //Bắt sự kiện blur qua các trường bắt buộc
     $(".enter-required").blur(function () {
@@ -132,7 +134,21 @@ function initEvents() {
 
     // Bắt sự kiện nút đóng và nút x trên các dialog cảnh báo
     $(".dialog-container .btn-close").click(hideDialogWarning);
-    
+
+    //Bắt sự kiện doubleClick vào 1 bản ghi, hiển thị form sửa nhân viên
+    $(document).on(
+      "dblclick",
+      "#tbEmployeeList tr.employee-info",
+      showEmployeeUpdateForm
+    );
+
+    //Bắt sự kiện click nút sửa trên bảng danh sách nhân viên
+    $(document).on(
+      "click",
+      "#tbEmployeeList tr.employee-info .fix-function",
+      showEmployeeUpdateForm
+    );
+   
   } catch (error) {
     console.log(error);
   }
@@ -142,7 +158,7 @@ function initEvents() {
  * Bắt sự kiện người dùng click nút thêm mới nhân viên
  * Author: Phạm Đình Duy (02/06/2023)
  */
-function addEmployeeBtn() {
+function showEmployeeAddForm() {
   try {
     formMode = "add";
     //Hiển thị form
@@ -296,7 +312,7 @@ async function saveAndAddForm() {
   try {
     if (await saveEmployee()) {
       //Mở lại form thêm mới nhân viên sau khi cất dữ liệu thành công
-      addEmployeeBtn();
+      showEmployeeAddForm();
     }
   } catch (error) {
     console.log(error);
@@ -315,14 +331,14 @@ async function saveEmployee() {
     validateInputRequired("input[required]");
     validateInputRequired("select[required]");
     // Nếu không hiển thị dialog cảnh báo  thì có thể thực hiện cất dữ liệu của form
-    if (
-      !showEmptyFieldDialog(employee) &&
-      !(await showDuplicateCodeDialog(employee.EmployeeCode))
-    ) {
+    console.log(formMode);
+    if (!showEmptyFieldDialog(employee)) {
       if (formMode == "add") {
-        await createEmployee(JSON.stringify(employee));
+        if (!(await showDuplicateCodeDialog(employee.EmployeeCode))) {
+          await createEmployee(JSON.stringify(employee));
+        }
       } else {
-        updateEmployee(employee);
+        await updateEmployee(JSON.stringify(employee), employeeId);
       }
       clearData();
       return true;
@@ -367,9 +383,7 @@ function showEmptyFieldDialog(employee) {
     if (employee.EmployeeCode == null || employee.EmployeeCode == "") {
       $("#dialog-warning").css("display", "flex");
       $("#dialog-warning .dialog-body__icon").addClass("icon-empty-warning");
-      $("#dialog-warning .dialog-body__detail").text(
-        "Mã không được để trống."
-      );
+      $("#dialog-warning .dialog-body__detail").text("Mã không được để trống.");
       return true;
     } else if (employee.FullName == null || employee.FullName == "") {
       $("#dialog-warning").css("display", "flex");
@@ -405,7 +419,9 @@ async function showDuplicateCodeDialog(employeeCode) {
     for (const item of employeeList) {
       if (employeeCode === item.EmployeeCode) {
         $("#dialog-warning").css("display", "flex");
-        $("#dialog-warning .dialog-body__icon").addClass("icon-duplicate-wraning");
+        $("#dialog-warning .dialog-body__icon").addClass(
+          "icon-duplicate-wraning"
+        );
         $("#dialog-warning .dialog-body__detail").text(
           `Mã nhân viên <${employeeCode}> đã tồn tại trong hệ thống, vui lòng kiểm tra lại.`
         );
@@ -494,7 +510,53 @@ function createEmployee(employee) {
       dataType: "json",
       success: function (response) {
         // Nếu thành công hiển thị thông báo thêm thành công
+
         $("#toast__success").show();
+        $("#toast__success .toast__desc div").text("Thêm mới thành công");
+        // Sau 3s thông báo tự động ẩn đi
+        setTimeout(function () {
+          $("#toast__success").hide();
+        }, 3000);
+        // Thực hiện load lại dữ liệu cho bảng khi đã thêm mới thành công
+        loadData();
+      },
+      error: function (error) {
+        let statusCode = error.status;
+        switch (statusCode) {
+          case 400:
+            let errMsg = error.responseJSON.userMsg;
+            alert(errMsg);
+            break;
+          case 500:
+            let err = error.responseJSON.userMsg;
+            alert(err);
+            break;
+          default:
+            break;
+        }
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/**
+ * Gọi API để sửa 1 nhân viên
+ * Author :Phạm Đình Duy (05/06/2023)
+ */
+function updateEmployee(employee, employeeId) {
+  try {
+    $.ajax({
+      type: "PUT",
+      url: "https://cukcuk.manhnv.net/api/v1/Employees/" + employeeId,
+      data: employee,
+      contentType: "application/json",
+      dataType: "json",
+      success: function (response) {
+        // Nếu thành công hiển thị thông báo sửa thành công
+        $("#toast__success").show();
+        $("#toast__success .toast__desc div").text("Sửa nhân viên thành công");
         // Sau 3s thông báo tự động ẩn đi
         setTimeout(function () {
           $("#toast__success").hide();
@@ -530,6 +592,54 @@ function createEmployee(employee) {
 function clearData() {
   try {
     $("#form-employee .textfield__input").val("");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/**
+ *Double click một dòng thông tin nhân viên trên bảng nhân viên
+ *thì hiển thị form sửa nhân viên
+ * Author: Phạm Đình Duy (08/06/2023)
+ */
+function showEmployeeUpdateForm() {
+  try {
+    console.log(this);
+    formMode = "edit";
+    //Đổi Titl form
+    $(".form-title").empty();
+    $(".form-title").text("Sửa nhân viên");
+    //Hiền thị form sửa nhân viên
+    $("#form-employee").css("display", "flex");
+    //Mặc định focus vào ô input đầu
+    $("#input-employeeCode").focus();
+    //lấy danh sách phòng ban từ API
+    getDepartments();
+    //Lấy danh sách các chức danh từ API
+    getPositions();
+    employeeId = $(this).attr("data");
+    //Gọi API lấy thông tin nhân viên được chọn đổ vào form
+    $.ajax({
+      type: "GET",
+      url: "https://cukcuk.manhnv.net/api/v1/Employees/" + employeeId,
+      success: function (response) {
+        $("#input-employeeCode").val(response.EmployeeCode);
+        $("#input-employeeName").val(response.FullName);
+        $("#input-department").val(response.DepartmentId).change();
+        $("#input-employeePosition").val(response.PositionId).change();
+        $("#input-dateOfBirth").val(bidingDate(response.DateOfBirth));
+        $("#input-identityNumber").val(response.IdentityNumber);
+        $("#input-identityDate").val(bidingDate(response.IdentityDate));
+        $("#input-identityPlace").val(response.IdentityPlace);
+        $("#input-address").val(response.Address);
+        $("#input-mobiephone").val(response.PhoneNumber);
+        // $("#input-landline").val(response);
+        $("#input-email").val(response.Email);
+        $("#input-bankAccount").val(response.BankAccountNumber);
+        $("#input-bankName").val(response.BankName);
+        $("#input-branch").val(response.BankBranchName);
+      },
+    });
   } catch (error) {
     console.log(error);
   }
