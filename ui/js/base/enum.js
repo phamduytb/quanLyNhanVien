@@ -1,5 +1,4 @@
-
-var MISAEnum = {
+const enumJS = {
     Gender: {
         Male: 0,
         Female: 1,
@@ -8,5 +7,6 @@ var MISAEnum = {
     FormMode: {
         Add: 0,
         Edit: 1
-    }
+    },
 }
+
