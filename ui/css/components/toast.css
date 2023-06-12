@@ -6,8 +6,6 @@
   border-radius: 4px;
   background-color: #fff;
   position: fixed;
-  top: 70px;
-  right: 16px;
   animation: toast-show 1s ease forwards;
   overflow: hidden;
   z-index: 100;
@@ -15,6 +13,16 @@
     
 }
 
+@keyframes toast-show {
+  from {
+    top: 70px;
+    right: -450px;
+  }
+  to {
+    top: 70px;
+    right: 16px;
+  }
+}
 .toast-content {
   display: flex;
   align-items: center;

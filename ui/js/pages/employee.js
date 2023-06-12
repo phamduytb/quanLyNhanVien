@@ -296,7 +296,7 @@ function createEmployee(employee) {
         $(".toast__body").empty();
         $(".toast__body").append(textDialogUpdate);
         $("#toast-success").show();
-        // Sau 3s thông báo tự động ẩn đi
+        // Sau 5s thông báo tự động ẩn đi
         setTimeout(function () {
           $("#toast-success").hide();
         }, 5000);
@@ -346,7 +346,7 @@ function updateEmployee(employee, employeeId) {
         $(".toast__body").empty();
         $(".toast__body").append(textDialogUpdate);
         $("#toast-success").show();
-        // Sau 3s thông báo tự động ẩn đi
+        // Sau 5s thông báo tự động ẩn đi
         setTimeout(function () {
           $("#toast-success").hide();
         }, 5000);
@@ -575,7 +575,7 @@ function showFunctionMenuOnTable() {
         $(".toast__body").empty();
         $(".toast__body").append(textDialogUpdate);
         $("#toast-success").show();
-        // Sau 3s thông báo tự động ẩn đi
+        // Sau 5s thông báo tự động ẩn đi
         setTimeout(function () {
           $("#toast-success").hide();
         }, 5000);
