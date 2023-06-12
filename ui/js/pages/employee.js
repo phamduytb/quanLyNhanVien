@@ -162,15 +162,28 @@ function initEvents() {
       try {
         $("#tbEmployeeList tbody").empty();
         loadData();
-      } catch (error) { 
+      } catch (error) {
         console.log(error);
       }
     });
 
     // Sự kiện click ra bên ngoài nút mũi tên cột chức năng trên bảng nhân viên ẩn menu chức năng
-    $("body").click(function() {
-      $("#btn-dropdown-menu").hide();
-    })
+    $("body").click(function () {
+      try {
+        $("#btn-dropdown-menu").hide();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    //sự kiện click nút x trên toast-success
+    $(".toast__right.icon-close").click(function () { 
+      try {
+        $("#toast-success").hide();
+      } catch (error) {
+        console.log(error);
+      }
+    });
   } catch (error) {
     console.log(error);
   }
@@ -275,18 +288,18 @@ function createEmployee(employee) {
       success: function (response) {
         // Nếu thành công hiển thị thông báo thêm thành công
 
-        let textDialogUpdate = `<div>
-                                    <span class="toast__desc--status toast-status--success">Thành công</span>
-                                    Thêm mới nhân viên
-                                  </div>
-                                  <span class="toast__act"><u>Hoàn tác</u></span>`;
-        $(".toast__desc").empty();
-        $(".toast__desc").append(textDialogUpdate);
-        $("#toast__success").show();
+        let textDialogUpdate = `<div class="toast-body__left">
+                                <span class="toast-title title-success">Thành công!</span>
+                                Thêm nhân viên thành công.
+                                </div>
+                                <div class="toast-body__right toast-action">Hoàn tác</div>`;
+        $(".toast__body").empty();
+        $(".toast__body").append(textDialogUpdate);
+        $("#toast-success").show();
         // Sau 3s thông báo tự động ẩn đi
         setTimeout(function () {
-          $("#toast__success").hide();
-        }, 3000);
+          $("#toast-success").hide();
+        }, 5000);
         // Thực hiện load lại dữ liệu cho bảng khi đã thêm mới thành công
         loadData();
       },
@@ -325,18 +338,18 @@ function updateEmployee(employee, employeeId) {
       dataType: "json",
       success: function (response) {
         // Nếu thành công hiển thị thông báo sửa thành công
-        let textDialogUpdate = `<div>
-                                    <span class="toast__desc--status toast-status--success">Thành công</span>
-                                    Sửa nhân viên
-                                  </div>
-                                  <span class="toast__act"><u>Hoàn tác</u></span>`;
-        $(".toast__desc").empty();
-        $(".toast__desc").append(textDialogUpdate);
-        $("#toast__success").show();
+        let textDialogUpdate = `<div class="toast-body__left">
+                                <span class="toast-title title-success">Thành công!</span>
+                                Sửa nhân viên thành công.
+                                </div>
+                                <div class="toast-body__right toast-action">Hoàn tác</div>`;
+        $(".toast__body").empty();
+        $(".toast__body").append(textDialogUpdate);
+        $("#toast-success").show();
         // Sau 3s thông báo tự động ẩn đi
         setTimeout(function () {
-          $("#toast__success").hide();
-        }, 3000);
+          $("#toast-success").hide();
+        }, 5000);
         // Thực hiện load lại dữ liệu cho bảng khi đã thêm mới thành công
         loadData();
       },
@@ -554,18 +567,18 @@ function showFunctionMenuOnTable() {
       type: "DELETE",
       url: `https://cukcuk.manhnv.net/api/v1/Employees/${employeeId}`,
       success: function (response) {
-        let textDialogUpdate = `<div>
-                                    <span class="toast__desc--status toast-status--success">Thành công</span>
-                                    Xóa nhân viên
-                                  </div>
-                                  <span class="toast__act"><u>Hoàn tác</u></span>`;
-        $(".toast__desc").empty();
-        $(".toast__desc").append(textDialogUpdate);
-        $("#toast__success").show();
-        //Sau 3s thông báo tự động ẩn đi
+        let textDialogUpdate = `<div class="toast-body__left">
+                                <span class="toast-title title-success">Thành công!</span>
+                                Xóa nhân viên thành công.
+                                </div>
+                                <div class="toast-body__right toast-action">Hoàn tác</div>`;
+        $(".toast__body").empty();
+        $(".toast__body").append(textDialogUpdate);
+        $("#toast-success").show();
+        // Sau 3s thông báo tự động ẩn đi
         setTimeout(function () {
-          $("#toast__success").hide();
-        }, 3000);
+          $("#toast-success").hide();
+        }, 5000);
         $("#btn-dropdown-menu").hide();
         $("#dialog-delete").hide();
 
