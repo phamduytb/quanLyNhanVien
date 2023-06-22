@@ -1,0 +1,132 @@
+.sidebar {
+    width: 200px;
+    height: 100%;
+    background-color: #393a3d;
+}
+
+.sidebar-top {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    padding-left: 16px;
+}
+
+.sidebar-top__icon {
+    background-position: -421px -88px;
+    cursor: pointer;
+}
+
+.sidebar-top__logo {
+    width: 96px;
+    height: 36px;
+    background: url(../../../assets/img/Logo_Module_TiengViet_White.66947422.svg) no-repeat;
+    background-size: 96px 36px;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.sidebar-bottom {
+    height: calc(100% - 56px);
+    padding: 10px 12px 0px 12px;
+    overflow-y: auto;
+}
+
+.sidebar-bottom a {
+    text-decoration: none;
+}
+
+.sidebar-item {
+    display: flex;
+    padding-left: 12px;
+    margin-bottom: 4px;
+    align-items: center;
+    height: 44px;
+    cursor: pointer;
+}
+
+.sidebar-item:hover {
+    background-color: #696a6b;
+    border-radius: 4px;
+}
+
+.sidebar-item__title {
+    margin-left: 12px;
+    color: var(--white-text-color);
+}
+
+.icon-overview {
+    
+    background-position: -30px -1628px;
+}
+
+.icon-cash {
+    background-position: -73px -1628px;
+    
+}
+
+.icon-deposits {
+    background-position: -116px -1629px;
+    
+}
+
+.icon-purchase {
+    background-position: -160px -1628px;
+    
+}
+
+.icon-sell {
+    background-position:  -205px -1628px;
+}
+    
+
+
+.icon-receipt {
+    background-position: -249px -1628px;
+    
+}
+
+.icon-warehouse {
+    background-position: -291px -1629px;
+    
+}
+
+.icon-tools {
+    background-position: -335px -1629px;
+    
+}
+
+.icon-asset {
+    background-position: -378px -1629px;
+    
+}
+
+.icon-salary {
+    background-position: -291px -1660px;
+    
+}
+
+/*  */
+.icon-tax {
+    background-position: -423px -1630px;
+    
+}
+
+.icon-price {
+    background-position: -468px -1629px;
+    
+}
+
+.icon-general {
+    background-position: -510px -1629px;
+    
+}
+
+.icon-budget {
+    background-position: -378px -1659px;
+    
+}
+
+.icon-report {
+    background-position: -547px -1631px;
+    
+}

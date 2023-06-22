@@ -1,0 +1,33 @@
+.tooltip {
+    position: relative;
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltip-text {
+    /* visibility: hidden; */
+    
+    min-width: 100px;
+    background-color: black;
+    color: var(--white-text-color);
+    font-family: roboto-regular;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 2;
+    margin: 0;
+    top: 25px;
+    /* left: -52px; */
+    display: none;
+  }
+  
+  .tooltip .tooltip-table {
+    position: absolute;
+    top: 30px;
+  }
+
+  .tooltip:hover .tooltip-text {
+    /* visibility: visible; */
+    display: block;
+  }
