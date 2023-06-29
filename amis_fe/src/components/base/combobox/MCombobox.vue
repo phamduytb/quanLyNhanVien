@@ -3,7 +3,9 @@
     <input
       type="text"
       class="combobox__input"
-      :value="textSearch"
+      v-model="textSelected"
+      ref="refCombobox"
+      @click="onShowData"
       @input="onInputSearch"
       @keydown="onInputKeyDown"
     />
@@ -26,12 +28,15 @@
 
 <script>
 import axios from "axios";
+import MISAEnum from "@/js/base/enum";
 export default {
   name: "MCombobox",
   props: {
     api: String,
 
     propName: String,
+
+    // modelValue: String,
   },
   data() {
     return {
@@ -39,7 +44,7 @@ export default {
       itemsFilter: [],
       isShowData: false,
       itemSelected: {},
-      textSearch: "",
+      textSelected: null,
       indexSelected: 0,
     };
   },
@@ -56,9 +61,20 @@ export default {
           console.log(response);
         });
     }
+    //lắng nghe sự kiện click ra bên ngoài combobox
+    document.addEventListener("click", this.onClickOutSideCombobox);
+    //
+    // this.textSelected = this.modelValue;
   },
   watch: {
     // Theo dõi sự thay đổi khi nhập liệu vào ô input
+    textSelected: function (newValue) {
+      // this.$emit("update:modelValue", newValue);
+      this.textSelected = newValue;
+    },
+    // modelValue: function (newValue) {
+    //   this.textSelected = newValue;
+    // },
   },
   methods: {
     /**
@@ -68,6 +84,33 @@ export default {
     onShowHideData() {
       try {
         this.isShowData = !this.isShowData;
+        this.$refs.refCombobox.focus();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Hàm hiện data của combobox
+     * Author: PDDUY (27/06/2023)
+     */
+    onShowData() {
+      try {
+        this.isShowData = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    /**
+     * Click bên ngoài combobox thì ẩn data
+     * @param {*} event
+     * Author: PDDUY (29/06/2023)
+     */
+    onClickOutSideCombobox(event) {
+      try {
+        if (!this.$el.contains(event.target)) {
+          this.isShowData = false;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -81,6 +124,7 @@ export default {
     onSelectItem(item) {
       try {
         this.itemSelected = item;
+        this.textSelected = this.itemSelected[this.propName];
         this.isShowData = false;
       } catch (error) {
         console.log(error);
@@ -99,7 +143,8 @@ export default {
         this.itemsFilter = this.items.filter((item) =>
           item[propName].toLowerCase().includes(value.toLowerCase())
         );
-        this.textSearch = value;
+        // this.textSearch = value;
+
         this.isShowData = true;
       } catch (error) {
         console.log(error);
@@ -107,7 +152,7 @@ export default {
     },
 
     /**
-     * Sự kiện di chuyển mũi tên lên xuống trong ô input của combobox
+     * Sự kiện keydown qua các data_item của combobox
      * @param {*} event
      * Author: PDDUY (27/06/2023)
      */
@@ -118,24 +163,35 @@ export default {
           return;
         } else {
           // ấn mũi tên xuống
-          if (event.keyCode == 40) {
+          if (event.keyCode == MISAEnum.KeyCode.ArrowDown) {
+            this.isShowData = true;
             if (this.indexSelected < maxLength - 1) {
               this.indexSelected++;
             }
-          } else if (event.keyCode == 38) {
+          }
+          // Ấn phím mũi tên lên
+          else if (event.keyCode == MISAEnum.KeyCode.ArrowUp) {
             if (this.indexSelected > 0) {
               this.indexSelected--;
             }
-          } else if (event.keyCode == 13) {
+          }
+          // ấn phím enter
+          else if (event.keyCode == MISAEnum.KeyCode.Enter) {
             this.itemSelected = this.itemsFilter[this.indexSelected];
-            this.textSearch = this.itemSelected[this.propName];
+            this.textSelected = this.itemSelected[this.propName];
             this.isShowData = false;
+          } else {
+            return;
           }
         }
       } catch (error) {
         console.log(error);
       }
     },
+  },
+  unmounted() {
+    //Ngừng lắng nghe sự kiện click ra bên ngoài combobox khi component bị hủy
+    document.removeEventListener("click", this.onClickOutSideCombobox);
   },
 };
 </script>

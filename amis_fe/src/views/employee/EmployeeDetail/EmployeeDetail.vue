@@ -68,12 +68,11 @@
               </div>
 
               <!-- <input type="text" id="input-employeePosition" class="textfield__input  input-job" tabindex="4"/> -->
-              <select
-                name=""
-                id="input-employeePosition"
-                class="select-option"
-                tabindex="4"
-              ></select>
+              <MCombobox
+                api="https://cukcuk.manhnv.net/api/v1/Positions"
+                propName="PositionName"
+              >
+              </MCombobox>
             </div>
           </div>
 
