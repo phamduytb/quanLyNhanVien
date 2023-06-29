@@ -1,7 +1,7 @@
 const MISAResource = {
     TextVi: {
         Header: {
-          CompanyName: "Công ty TNHH SONG VIỆT - Misatest",
+          CompanyName: "CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC",
           EmployeeName: "Phạm Đình Duy",
         },
         Content: {
@@ -17,7 +17,7 @@ const MISAResource = {
           DateOfBirth: "Ngày sinh",
           Identity: "Số CMND",
           PositionName: "Chức danh",
-           DepartmentName: "Tên đơn vị",
+          DepartmentName: "Tên đơn vị",
           BankNumber: "Số tài khoản",
           BankName: "Tên ngân hàng",
           BankBranch: "Chi nhánh",
@@ -48,45 +48,26 @@ const MISAResource = {
           BankName: "Tên ngân hàng",
           BankBranch: "Chi nhánh",
     
-          /* Tên chức năng */
-          Cancel: "Huỷ",
+        },
+        Button: {
           Close: "Đóng",
+          Cancel: "Hủy",
           Save: "Cất",
-          SaveAndAdd: "Cất và Thêm",
-          Insert: "Thêm",
-          Update: "Sửa",
-          Accept: "Đồng ý",
-          Yes: "Có",
-          No: "Không",
+          SaveAndAdd: "Cất và thêm"
         },
         Dialog: {
-          Save: "Cất",
-          NotSave: "Không cất",
-          No: "Không",
-          Yes: "Có",
-          Close: "Đóng",
-          Cancel: "Huỷ",
-          Delete: "Xoá",
-          Accept: "Đồng ý",
           Title: {
-            Delete: "Xoá nhân viên",
-            DeleteMany : "Bạn có thực sự muốn xóa những nhân viên đã chọn không?",
-            Warning: "Cảnh báo",
-            Change: "Dữ liệu đã bị thay đổi. Bạn có muốn cất không? ",
-            Error: "Có lỗi!",
+            Warning: "Cảnh báo.",
+            Error: "Dữ liệu không hợp lệ.",
           },
-          Text: {
-            Save: "Bạn có muốn cất không?",
-            Employee: "Nhân viên",
-            After: "sẽ bị xoá.",
+          Message: {
+            DuplicateCode: "Mã nhân viên đã tồn tại.",
+            EmptyCode: "Mã không được để trống.",
+            EmptyName: "Tên nhân viên không được để trống.",
+            EmptyDepartmentName: "Tên đơn vị không được để trống.",
           },
         },
-        ErrorMessage: {
-          DuplicateCode: "Mã nhân viên đã tồn tại.",
-          EmptyCode: "Mã không được để trống.",
-          EmptyName: "Tên nhân viên không được để trống.",
-          EmptyDepartmentName: "Tên đơn vị không được để trống.",
-        },
+        
         //
         ToastMessage: {
           Success: {
