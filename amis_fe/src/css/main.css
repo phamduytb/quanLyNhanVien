@@ -1,7 +1,5 @@
 @import url(../assets/icofont/icofont.min.css);
-@import url(./base/table.css);
 @import url(./base/tooltip.css);
-@import url(./base/loading.css);
 @import url(./base/scrollbar.css);
 
 /* ------------------variable---------------------- */

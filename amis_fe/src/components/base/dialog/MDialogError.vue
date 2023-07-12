@@ -1,4 +1,4 @@
-<!-- Dialog thông báo lỗi: Các trường không được để trống, mã trùng -->
+<!-- Dialog thông báo lỗi: Các trường không được để trống, mã trùng, dữ liệu không đúng định dạng,.. -->
 <template>
   <div class="dialog-container">
     <div class="dialog-wrapper">
@@ -15,20 +15,26 @@
       <div class="dialog-body">
         <div class="icon dialog-body__icon icon--error"></div>
         <div class="dialog-body__detail">
-          <ul
+          <!-- <ul
             class="dialog-message"
             v-for="(item, index) in errors"
             :key="index"
           >
             <li>{{ item }}</li>
-          </ul>
+          </ul> -->
+          {{ errors[0] }}
         </div>
       </div>
       <div class="dialog-footer dialog-wraning__footer">
         <div class="tooltip">
-          <MButton :text="this.textButtonClose" @click="btnCloseDialogOnClick">
+          <MButton
+            :text="$_MISAResource.TextVi.Button.Close"
+            @click="btnCloseDialogOnClick"
+          >
           </MButton>
-          <div class="tooltip-text">{{ this.textTooltipClose }}</div>
+          <div class="tooltip-text">
+            {{ $_MISAResource.TextVi.ToolTip.Close }}
+          </div>
         </div>
       </div>
     </div>
@@ -36,13 +42,15 @@
 </template>
 
 <script>
-import MISAResource from "@/js/base/resource";
 import MButton from "@/components/base/button/MButton.vue";
 export default {
   name: "MDialogError",
   props: ["title", "errors"],
   components: {
     MButton,
+  },
+  data() {
+    return {};
   },
   methods: {
     /**
@@ -56,14 +64,6 @@ export default {
         console.log(error);
       }
     },
-  },
-  data() {
-    return {
-      //#region  MISAResource
-      textButtonClose: MISAResource.TextVi.Button.Close,
-      textTooltipClose: MISAResource.TextVi.ToolTip.Close,
-      //#endregion  MISAResource
-    };
   },
 };
 </script>

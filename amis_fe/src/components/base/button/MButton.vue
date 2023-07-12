@@ -1,5 +1,8 @@
 <template>
-  <button class="btn">
+  <button class="btn tooltip" :tabindex="tabindex">
+    <div class="tooltip-text" v-if="tooltip">
+      {{ tooltip }}
+    </div>
     {{ text }}
   </button>
 </template>
@@ -9,7 +12,11 @@ export default {
   name: "MButton",
   props: {
     text: String,
+    tabindex: Number,
+    //tooltip cho những từ viết tắt
+    tooltip: String,
   },
+  methods: {},
 };
 </script>
 

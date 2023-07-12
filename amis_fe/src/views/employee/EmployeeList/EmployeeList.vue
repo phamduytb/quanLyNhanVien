@@ -12,7 +12,7 @@
 
     <div class="content-table">
       <div class="table-header">
-        <div class="textfield__main">
+        <div class="textfield-wrapper">
           <input
             type="text"
             class="textfield__input input-icon"
@@ -21,8 +21,13 @@
           <div class="icon icon-wrap icon-search"></div>
         </div>
 
-        <button class="btn-refresh" title="Lấy lại dữ liệu">
-          <div class="icon icon-24 icon-loading"></div>
+        <button class="btn-refresh">
+          <div
+            class="icon icon-24 icon-loading tooltip"
+            @click="btnLoadingOnClick"
+          >
+            <div class="tooltip-text">Lấy lại dữ liệu</div>
+          </div>
         </button>
       </div>
       <div class="table-main">
@@ -33,45 +38,45 @@
                 <MCheckbox></MCheckbox>
               </th>
               <th class="text-align--left" style="min-width: 150px">
-                {{ this.textEmployeeCode }}
+                {{ $_MISAResource.TextVi.EmployeeList.EmployeeCode }}
               </th>
               <th class="text-align--left" style="min-width: 200px">
-                {{ this.textEmployeeName }}
+                {{ $_MISAResource.TextVi.EmployeeList.EmployeeName }}
               </th>
               <th class="text-align--left" style="min-width: 150px">
-                {{ this.textGender }}
+                {{ $_MISAResource.TextVi.EmployeeList.Gender }}
               </th>
               <th class="text-align--center" style="min-width: 150px">
-                {{ this.textDateOfBirth }}
+                {{ $_MISAResource.TextVi.EmployeeList.DateOfBirth }}
               </th>
               <th class="text-align--left tooltip" style="min-width: 200px">
-                {{ this.textIdentity }}
+                {{ $_MISAResource.TextVi.EmployeeList.Identity }}
                 <div class="tooltip-text tooltip-table">
                   Số chứng minh nhân dân
                 </div>
               </th>
               <th class="text-align--left" style="min-width: 200px">
-                {{ this.textPositionName }}
+                {{ $_MISAResource.TextVi.EmployeeList.PositionName }}
               </th>
               <th class="text-align--left" style="min-width: 250px">
-                {{ this.textDepartmentName }}
+                {{ $_MISAResource.TextVi.EmployeeList.DepartmentName }}
               </th>
               <th class="text-align--left" style="min-width: 150px">
-                {{ this.textBankNumber }}
+                {{ $_MISAResource.TextVi.EmployeeList.BankNumber }}
               </th>
               <th class="text-align--left" style="min-width: 150px">
-                {{ this.textBankName }}
+                {{ $_MISAResource.TextVi.EmployeeList.BankName }}
               </th>
               <th
                 class="text-align--left tooltip"
                 style="min-width: 250px"
                 title="Chi nhánh tài khoản ngân hàng"
               >
-                {{ this.textBankBranch }}
+                {{ $_MISAResource.TextVi.EmployeeList.BankBranch }}
                 <!-- <div class="tooltip-text tooltip-table">{{this.textEmployeeCode}}</div> -->
               </th>
               <th class="text-align--left" style="min-width: 120px">
-                {{ this.textFunction }}
+                {{ $_MISAResource.TextVi.EmployeeList.Function }}
               </th>
             </tr>
           </thead>
@@ -79,14 +84,18 @@
             <tr
               v-for="(employee, index) in employees"
               :key="index"
-              @dblclick="dbClickOnRow(employee)"
+              @dblclick="onRowSelected(employee)"
+              :class="{
+                employee__active:
+                  this.employeeSelected.EmployeeId == employee.EmployeeId,
+              }"
             >
               <td><MCheckbox></MCheckbox></td>
               <td>{{ employee.EmployeeCode }}</td>
               <td>{{ employee.FullName }}</td>
               <td>{{ employee.GenderName }}</td>
               <td class="text-align--center">
-                {{ MISACommon.formatDate(employee.DateOfBirth) }}
+                {{ $_MISACommon.formatDate(employee.DateOfBirth) }}
               </td>
               <td>{{ employee.IdentityNumber }}</td>
               <td>{{ employee.PositionName }}</td>
@@ -95,9 +104,17 @@
               <td>{{ employee.BankName }}</td>
               <td>{{ employee.BankBranch }}</td>
               <td class="td-last">
-                <button class="td-button fix-function">Sửa</button>
-                <button class="td-button btn-list-function">
-                  <i class="icofont-caret-down"></i>
+                <button
+                  class="td-button fix-function"
+                  @click="onRowSelected(employee)"
+                >
+                  Sửa
+                </button>
+                <button
+                  class="td-button btn-list-function"
+                  @click="btnFunctionSelected(employee)"
+                >
+                  <i class="icofont-caret-down btn-function__icon"></i>
                 </button>
               </td>
             </tr>
@@ -106,8 +123,8 @@
       </div>
       <div class="table-footer">
         <div class="table-footer__left">
-          Tổng số :
-          <b>80</b>
+          Tổng số:
+          <b>{{ employees.length }}</b>
           bản ghi
         </div>
         <div class="table-footer__right">
@@ -150,21 +167,30 @@
   <EmployeeDetail
     v-if="isShowEmployeeForm"
     @onCloseEmployeeForm="closeEmployeeForm"
+    @onLoadData="loadData"
+    @onResetForm="resetForm"
     :employeeSelected="this.employeeSelected"
   >
   </EmployeeDetail>
 
-  <MToast></MToast>
+  <MToast
+    v-if="isShowToast"
+    :toastTitle="$_MISAResource.TextVi.ToastMessage.Success.Title"
+    :toastMsg="$_MISAResource.TextVi.ToastMessage.Success.Save"
+    @onShowToast="showToast"
+    @onHideToast="hideToast"
+  >
+  </MToast>
+  <MLoading v-show="isShowLoading"></MLoading>
 </template>
 
 <script>
-import CallApi from "@/js/api/callApi";
-// import MISACommon from "@/js/base/common";
-import MISAResource from "@/js/base/resource";
 import MButton from "@/components/base/button/MButton.vue";
 import MCheckbox from "@/components/base/input/checkbox/MCheckbox.vue";
 import EmployeeDetail from "@/views/employee/EmployeeDetail/EmployeeDetail.vue";
 import MToast from "@/components/base/toast/MToast.vue";
+import MLoading from "@/components/base/loading/MLoading.vue";
+import { HTTPEmployees } from "@/js/api/callApi.js";
 export default {
   name: "EmployeeList",
   components: {
@@ -172,44 +198,67 @@ export default {
     EmployeeDetail,
     MToast,
     MCheckbox,
+    MLoading,
   },
   data() {
     return {
+      //Điều kiện ẩn hiện form nhân viên
       isShowEmployeeForm: false,
+      //Điều kiện ẩn hiện toast
+      isShowToast: false,
+      //Điều kiện hiển thị loading
+      isShowLoading: false,
+      // Danh sách nhân viên lấy được từ API
       employees: [],
+      //Nhân viên được chọn để sửa
       employeeSelected: {},
-      // MISACommon: MISACommon,
-      //#region Text data Table
-      textEmployeeCode: MISAResource.TextVi.EmployeeList.EmployeeCode,
-      textEmployeeName: MISAResource.TextVi.EmployeeList.EmployeeName,
-      textGender: MISAResource.TextVi.EmployeeList.Gender,
-      textDateOfBirth: MISAResource.TextVi.EmployeeList.DateOfBirth,
-      textIdentity: MISAResource.TextVi.EmployeeList.Identity,
-      textDepartmentName: MISAResource.TextVi.EmployeeList.DepartmentName,
-      textPositionName: MISAResource.TextVi.EmployeeList.PositionName,
-      textBankNumber: MISAResource.TextVi.EmployeeList.BankNumber,
-      textBankName: MISAResource.TextVi.EmployeeList.BankName,
-      textBankBranch: MISAResource.TextVi.EmployeeList.BankBranch,
-      textFunction: MISAResource.TextVi.EmployeeList.Function,
     };
   },
-  created() {
-    CallApi.methods
-      .getEmployees()
-      .then((res) => {
-        this.employees = res;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async created() {
+    //Gọi API lấy danh sách nhân viên lần đầu chạy app
+    await this.getEmployees();
+    this.isShowLoading = false;
   },
   methods: {
+    /**
+     * Gọi API lấy danh sách nhân viên
+     * Author: PDDUY(27/06/2023)
+     */
+    async getEmployees() {
+      try {
+        //Hiển loading khi chưa load dữ liệu xong.
+        this.isShowLoading = true;
+        await HTTPEmployees.get("")
+          .then((res) => {
+            // console.log(res);
+            this.employees = res.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Load lại dữ liệu của bảng nhân viên khi ấn nút loading
+     * Author: PDDUY (27/06/2023)
+     */
+    async btnLoadingOnClick() {
+      try {
+        await this.getEmployees();
+        this.isShowLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     /**
      * Click nút thêm mới hiển thị form chi tiết nhân viên
      * Author: PDDUY(27/06/2023)
      */
     btnAddEmployee() {
       try {
+        this.employeeSelected = {};
         this.isShowEmployeeForm = true;
       } catch (error) {
         console.log(error);
@@ -217,7 +266,7 @@ export default {
     },
     /**
      * Sự kiện ẩn form nhân viên
-     * Author: PDDUY(22/06/2023)
+     * Author: PDDUY(27/06/2023)
      */
     closeEmployeeForm() {
       try {
@@ -226,11 +275,69 @@ export default {
         console.log(error);
       }
     },
+    /**
+     * Hàm load lại dữ liệu sau khi lưu  thành công
+     * Author:PDDUY (04/07/2023)
+     */
+    async loadData() {
+      try {
+        // hiển thị toast sau khi lưu dữ liệu
+        this.showToast();
+        //load lại danh sách nhân viên
+        await this.getEmployees();
+        //Ẩn loading sau khi load xong dữ liệu
+        this.isShowLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
-    dbClickOnRow(employee) {
+    /**
+     * Hàm hiển thị toast message, tự động ẩn đi sau 5s
+     * Author:PDDUY (04/07/2023)
+     */
+    showToast() {
+      try {
+        this.isShowToast = true;
+        setTimeout(() => {
+          this.isShowToast = false;
+        }, 5000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Hàm ẩn toast message khi click icon x
+     * Author:PDDUY (04/07/2023)
+     */
+    hideToast() {
+      try {
+        this.isShowToast = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * chọn 1 dòng nhân viên để sửa.
+     * @param {*} employee - Nhân viên được chọn
+     * Author: PDDUY (11/07/2023)
+     */
+    onRowSelected(employee) {
       try {
         this.employeeSelected = employee;
         this.isShowEmployeeForm = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Chọn nút mũi tên để hiển thị chức năng trên 1 dòng của bảng nhân viên
+     * @param {} employee - Nhân viên được chọn
+     * Author: PDDUY (12/07/2023)
+     */
+    btnFunctionSelected(employee) {
+      try {
+        this.employeeSelected = employee;
       } catch (error) {
         console.log(error);
       }

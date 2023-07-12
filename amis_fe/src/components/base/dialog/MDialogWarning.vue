@@ -15,11 +15,14 @@
       </div>
       <div class="dialog-footer dialog-wraning__footer">
         <div class="tooltip">
-          <MButton class="btn--secondary" :text="this.textNoButton"></MButton>
+          <MButton
+            class="btn--secondary"
+            :text="$_MISAResource.TextVi.Button.No"
+          ></MButton>
           <div class="tooltip-text"></div>
         </div>
         <div class="tooltip">
-          <MButton :text="this.textYesButton"></MButton>
+          <MButton :text="$_MISAResource.TextVi.Button.Yes"></MButton>
           <div class="tooltip-text"></div>
         </div>
       </div>
@@ -28,7 +31,6 @@
 </template>
 
 <script>
-import MISAResource from "@/js/base/resource";
 import MButton from "@/components/base/button/MButton.vue";
 export default {
   name: "MDialogError",
@@ -37,14 +39,7 @@ export default {
     MButton,
   },
   data() {
-    return {
-      //#region  MISAResource
-      textYesButton: MISAResource.TextVi.Dialog.Yes,
-      textNoButton: MISAResource.TextVi.Dialog.No,
-      //tooltip
-      textTooltipClose: MISAResource.TextVi.ToolTip.Close,
-      //#endregion  MISAResource
-    };
+    return {};
   },
 };
 </script>

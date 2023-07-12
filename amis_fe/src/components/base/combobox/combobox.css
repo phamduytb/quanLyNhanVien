@@ -1,7 +1,21 @@
+.combobox-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  position: relative;
+}
+
+.combobox-label {
+  font-family: roboto-medium;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.combobox--required {
+  color: var(--required-color);
+}
 .combobox {
   height: 36px;
-  /* width: 200px;
-      min-width: 200px; */
   position: relative;
 }
 
@@ -45,29 +59,18 @@
   border-left: none;
 }
 
-/* .combobox__icon:focus {
-      border: 1px solid var(--main-color) !important;
-  } */
-
 .combobox__icon i {
   font-size: 16px;
 }
 
-/* .arrow-down {
-  
-      background-position: -1129px -365px;
-  } */
-
 .combobox__data {
   display: flex;
-  /* display: none; */
   flex-direction: column;
   width: 100%;
   background-color: var(--white-background-color);
   position: absolute;
   top: calc(100% + 1px);
   z-index: 100;
-  /* border: 1px solid #ccc; */
   border: none;
   padding: 8px;
   box-shadow: 2px 2px 15px #333;
@@ -90,4 +93,51 @@
 
 .combobox-paging {
   display: none;
+}
+
+.combobox__input--required {
+  border-color: var(--required-color) !important;
+}
+
+.combobox__message {
+  position: absolute;
+  font-size: 12px;
+  color: var(--required-color);
+  top: calc(100% + 3px);
+}
+
+/* tooltip hiển thị các trường lỗi*/
+.error-info{
+  top: -28px;
+  left: -58px;
+  text-align: center;
+  background-color: #393a3d;
+  padding: 5px 16px;
+  width: max-content;
+  border-radius: 4px;
+  color: #ffff;
+  position: absolute; 
+  transform: translate(35px, 0);
+  font-family: Roboto;
+  display: none;
+  z-index: 99;
+}
+
+.error-arrow{
+  width: 7px;
+  height: 7px;
+  background-color: #393a3d;
+  position: absolute;
+  left: 50%;
+  top: 88%;
+  transform: translate(-50%,-50%);
+  transform: rotate(45deg);
+}
+
+.error-bg{
+  background-color: #f34545;
+  color: #fff;
+}
+.combobox:hover .error-info {
+  display: block;
 }
