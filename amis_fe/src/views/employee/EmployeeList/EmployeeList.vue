@@ -111,8 +111,8 @@
                   Sửa
                 </button>
                 <button
-                  class="td-button btn-list-function"
-                  @click="btnFunctionSelected(employee)"
+                  class="td-button btn-function__dropdown"
+                  @click="showOnDropMenu($event, employee)"
                 >
                   <i class="icofont-caret-down btn-function__icon"></i>
                 </button>
@@ -172,7 +172,27 @@
     :employeeSelected="this.employeeSelected"
   >
   </EmployeeDetail>
-
+  <teleport to="body" @blur="hideOnDropMenu">
+    <div
+      id="btn-dropdown-menu"
+      class="dropdown-menu"
+      v-if="isShowOnDropMenu"
+      :style="[isDropdown ? dropdownPosition : dropdownPositionReverse]"
+    >
+      <ul class="dropdown-list">
+        <li class="dropdown-item" @click="btnReplicationOnDetail()">
+          Nhân bản
+        </li>
+        <li id="btn-delete" class="dropdown-item" @click="showOnDialogwarning">
+          Xóa
+        </li>
+        <div class="tooltip">
+          <li class="dropdown-item">Ngừng sử dụng</li>
+          <div class="tooltip-text tooltip-reload">Đang phát triển</div>
+        </div>
+      </ul>
+    </div>
+  </teleport>
   <MToast
     v-if="isShowToast"
     :toastTitle="$_MISAResource.TextVi.ToastMessage.Success.Title"
@@ -182,6 +202,11 @@
   >
   </MToast>
   <MLoading v-show="isShowLoading"></MLoading>
+  <MDialogWarning
+    v-if="isShowDialogWarning"
+    :messageDialog="messageDialog"
+    @closeDialog="closeDialogWraning"
+  ></MDialogWarning>
 </template>
 
 <script>
@@ -190,6 +215,7 @@ import MCheckbox from "@/components/base/input/checkbox/MCheckbox.vue";
 import EmployeeDetail from "@/views/employee/EmployeeDetail/EmployeeDetail.vue";
 import MToast from "@/components/base/toast/MToast.vue";
 import MLoading from "@/components/base/loading/MLoading.vue";
+import MDialogWarning from "@/components/base/dialog/MDialogWarning.vue";
 import { HTTPEmployees } from "@/js/api/callApi.js";
 export default {
   name: "EmployeeList",
@@ -199,6 +225,7 @@ export default {
     MToast,
     MCheckbox,
     MLoading,
+    MDialogWarning,
   },
   data() {
     return {
@@ -212,12 +239,44 @@ export default {
       employees: [],
       //Nhân viên được chọn để sửa
       employeeSelected: {},
+      // Tọa độ theo chiều ngang khi click chuột vào 1 phần tử (so với viewport)
+      dropdownPositionX: 0,
+      // Tọa độ theo chiều dọc khi click chuột vào 1 phần tử (so với viewport)
+      dropdownPositionY: 0,
+      // Điều kiện dropdown hiển thị bên dưới ( true) hoặc lên trên nút chức năng
+      isDropdown: true,
+      //Điều kiện hiển thị dropdown menu chức năng
+      isShowOnDropMenu: false,
+      //Diều kiện hiển thị dialog cảnh báo
+      isShowDialogWarning: false,
+      //Thông điệp của dialog
+      messageDialog: "",
     };
   },
   async created() {
     //Gọi API lấy danh sách nhân viên lần đầu chạy app
     await this.getEmployees();
     this.isShowLoading = false;
+  },
+  computed: {
+    /**
+     * Hàm tính toán vị trí của dropdown khi hiển thị phía dưới nút chức năng
+     */
+    dropdownPosition() {
+      return {
+        top: `calc(${this.dropdownPositionY}px + 10px)`,
+        left: `calc(${this.dropdownPositionX}px - 55px)`,
+      };
+    },
+    /**
+     * Hàm tính toán vị trí của dropdown khi hiển thị phía trên nút chức năng
+     */
+    dropdownPositionReverse() {
+      return {
+        top: `calc(${this.dropdownPositionY}px - 100px)`,
+        left: `calc(${this.dropdownPositionX}px - 55px)`,
+      };
+    },
   },
   methods: {
     /**
@@ -331,13 +390,64 @@ export default {
       }
     },
     /**
-     * Chọn nút mũi tên để hiển thị chức năng trên 1 dòng của bảng nhân viên
-     * @param {} employee - Nhân viên được chọn
+     * Hiển thị dropdown menu chức năng của 1 dòng nhân viên
+     * @param {*} e
+     * @param {*} employee
      * Author: PDDUY (12/07/2023)
      */
-    btnFunctionSelected(employee) {
+    showOnDropMenu(e, employee) {
       try {
         this.employeeSelected = employee;
+        // console.log(e.clientY);
+        //clientY. clinetX: tọa độ khi click chuột vào 1 phần tử( tính bằng px)  so với viewport
+        //Nếu tọa độ theo chiều dọc > 560px thì dropdpwn hiển thị lên trên nút chức năng
+        // Ngược lại hiển thị bên dưới
+        if (e.clientY > 560) {
+          this.isDropdown = false;
+        } else {
+          this.isDropdown = true;
+        }
+        this.dropdownPositionX = e.clientX;
+        this.dropdownPositionY = e.clientY;
+        //Ẩn hoặc hiện drop menu
+        // this.isShowOnDropMenu = !this.isShowOnDropMenu;
+        this.isShowOnDropMenu = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Ẩn dropdown menu chức năng của 1 dòng nhân viên
+     * @param {} employee - Nhân viên được chọn,
+     * Author: PDDUY (12/07/2023)
+     */
+    hideOnDropMenu() {
+      try {
+        this.isShowOnDropMenu = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Hiển thị dialog cảnh báo khi xóa nhân viên
+     * Author: PDDUY (13/07/2023)
+     */
+    showOnDialogwarning() {
+      try {
+        this.messageDialog = `Bạn có muốn xóa nhân viên <${this.employeeSelected.EmployeeCode}> không?`;
+        this.isShowOnDropMenu = false;
+        this.isShowDialogWarning = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     *Đóng dialog cảnh báo
+     * Author: PDDUY (13/07/2023)
+     */
+    closeDialogWraning() {
+      try {
+        this.isShowDialogWarning = false;
       } catch (error) {
         console.log(error);
       }

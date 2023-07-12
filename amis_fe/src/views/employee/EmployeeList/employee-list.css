@@ -208,7 +208,7 @@ table {
   }
   
   
-  .td-last .btn-list-function {
+  .td-last .btn-function__dropdown {
     position: relative;
     width: 16px;
     height: 16px;
@@ -217,7 +217,7 @@ table {
     justify-content: center;
   }
 
-  .td-last .btn-list-function .btn-function__icon {
+  .td-last .btn-function__dropdown .btn-function__icon {
     position: absolute;
     top: 1.5px;
     left: 0.5px;

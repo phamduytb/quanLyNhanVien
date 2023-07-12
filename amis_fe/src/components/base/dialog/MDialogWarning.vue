@@ -3,28 +3,30 @@
   <div class="dialog-container">
     <div class="dialog-wrapper">
       <div class="dialog-header">
-        <div class="dialog-header__title">Dữ liệu bị thay đổi</div>
-        <button class="icon-24 dialog-header__icon tooltip btn-close">
+        <div class="dialog-header__title">
+          {{ $_MISAResource.TextVi.Dialog.Title.Warning }}
+        </div>
+        <button
+          class="icon-24 dialog-header__icon tooltip btn-close"
+          @click="btnCloseDialogOnClick"
+        >
           <i class="icofont-close-line"></i>
-          <div class="tooltip-text">Đóng (ESC)</div>
+          <div class="tooltip-text">
+            {{ $_MISAResource.TextVi.ToolTip.Close }}
+          </div>
         </button>
       </div>
       <div class="dialog-body">
         <div class="icon dialog-body__icon icon--warning"></div>
-        <div class="dialog-body__detail"></div>
+        <div class="dialog-body__detail">{{ messageDialog }}</div>
       </div>
       <div class="dialog-footer dialog-wraning__footer">
-        <div class="tooltip">
-          <MButton
-            class="btn--secondary"
-            :text="$_MISAResource.TextVi.Button.No"
-          ></MButton>
-          <div class="tooltip-text"></div>
-        </div>
-        <div class="tooltip">
-          <MButton :text="$_MISAResource.TextVi.Button.Yes"></MButton>
-          <div class="tooltip-text"></div>
-        </div>
+        <MButton
+          class="btn--secondary"
+          :text="$_MISAResource.TextVi.Button.No"
+          @click="btnCloseDialogOnClick"
+        ></MButton>
+        <MButton :text="$_MISAResource.TextVi.Button.Yes"> </MButton>
       </div>
     </div>
   </div>
@@ -33,13 +35,20 @@
 <script>
 import MButton from "@/components/base/button/MButton.vue";
 export default {
-  name: "MDialogError",
-  props: {},
+  name: "MDialogWarning",
+  props: {
+    messageDialog: String,
+  },
   components: {
     MButton,
   },
   data() {
     return {};
+  },
+  methods: {
+    btnCloseDialogOnClick() {
+      this.$emit("closeDialog");
+    },
   },
 };
 </script>
