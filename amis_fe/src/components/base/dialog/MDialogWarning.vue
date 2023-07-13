@@ -26,7 +26,11 @@
           :text="$_MISAResource.TextVi.Button.No"
           @click="btnCloseDialogOnClick"
         ></MButton>
-        <MButton :text="$_MISAResource.TextVi.Button.Yes"> </MButton>
+        <MButton
+          :text="$_MISAResource.TextVi.Button.Yes"
+          @click="btnConfirmOnClick"
+        >
+        </MButton>
       </div>
     </div>
   </div>
@@ -46,8 +50,19 @@ export default {
     return {};
   },
   methods: {
+    /**
+     * click nút x và nút không trên dialog
+     * Author: PDDUY(13/07/2023)
+     */
     btnCloseDialogOnClick() {
       this.$emit("closeDialog");
+    },
+    /**
+     * click nút có trên dialog
+     * Author: PDDUY(13/07/2023)
+     */
+    btnConfirmOnClick() {
+      this.$emit("confirmDialog");
     },
   },
 };

@@ -351,7 +351,7 @@ export default {
       formTitle: "",
       //Thông tin nhân viên lấy được từ form
       employee: {},
-      //Danh sách lỗi khi validte
+      //Danh sách lỗi khi validte, hoặc các lỗi trả về từ serve
       errors: [],
       //Danh sách các điều kiện hiển thị lỗi cho các trường của đối tượng employee
       errorEmployee: {

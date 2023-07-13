@@ -195,8 +195,8 @@
   </teleport>
   <MToast
     v-if="isShowToast"
-    :toastTitle="$_MISAResource.TextVi.ToastMessage.Success.Title"
-    :toastMsg="$_MISAResource.TextVi.ToastMessage.Success.Save"
+    :toastTitle="this.toastTitle"
+    :toastMsg="this.toastMsg"
     @onShowToast="showToast"
     @onHideToast="hideToast"
   >
@@ -206,6 +206,7 @@
     v-if="isShowDialogWarning"
     :messageDialog="messageDialog"
     @closeDialog="closeDialogWraning"
+    @confirmDialog="confirmDialogWraning"
   ></MDialogWarning>
 </template>
 
@@ -231,12 +232,18 @@ export default {
     return {
       //Điều kiện ẩn hiện form nhân viên
       isShowEmployeeForm: false,
-      //Điều kiện ẩn hiện toast
+      //Điều kiện ẩn hiện toast message
       isShowToast: false,
+      //Title của toast
+      toastTitle: "",
+      //Thông điệp toast message
+      toastMsg: "",
       //Điều kiện hiển thị loading
       isShowLoading: false,
       // Danh sách nhân viên lấy được từ API
       employees: [],
+      //Danh sách lỗi nhận được từ serve
+      errors: [],
       //Nhân viên được chọn để sửa
       employeeSelected: {},
       // Tọa độ theo chiều ngang khi click chuột vào 1 phần tử (so với viewport)
@@ -289,14 +296,43 @@ export default {
         this.isShowLoading = true;
         await HTTPEmployees.get("")
           .then((res) => {
-            // console.log(res);
             this.employees = res.data;
           })
           .catch((error) => {
-            console.log(error);
+            this.handleErrorResponse(error);
           });
       } catch (error) {
         console.log(error);
+      }
+    },
+    /**
+     * Hàm xử lý response lỗi trả về từ API
+     * @param {} res
+     * Author: PDDUY(04/07/2023)
+     */
+    handleErrorResponse(res) {
+      // console.log(res);
+      let statusCode = res.response.status;
+      let data = res.response.data;
+      // let data = res.response.data.data;
+      switch (statusCode) {
+        case 400:
+          // Vòng lặp để xem lỗi xảy  ra ở ô input nào
+          // for (const key in data) {
+          //   if (Object.hasOwnProperty.call(data, key)) {
+          //     const element = data[key];
+          //     this.errors.push(element);
+          //   }
+          // }
+          this.errors = [];
+          this.errors.push(data.userMsg);
+          break;
+        case 500:
+          this.errors = [];
+          this.errors.push(data.userMsg);
+          break;
+        default:
+          break;
       }
     },
     /**
@@ -306,6 +342,7 @@ export default {
     async btnLoadingOnClick() {
       try {
         await this.getEmployees();
+        //ẩn loading khi đã load dữ liệu xong.
         this.isShowLoading = false;
       } catch (error) {
         console.log(error);
@@ -340,6 +377,16 @@ export default {
      */
     async loadData() {
       try {
+        this.toastTitle = this.$_MISAResource.TextVi.ToastMessage.Success.Title;
+        //Trường hợp sửa nhân viên
+        if (this.employeeSelected.EmployeeCode) {
+          this.toastMsg =
+            this.$_MISAResource.TextVi.ToastMessage.Success.Update;
+          //Trường hợp thêm nhân viên
+        } else {
+          this.toastMsg =
+            this.$_MISAResource.TextVi.ToastMessage.Success.Insert;
+        }
         // hiển thị toast sau khi lưu dữ liệu
         this.showToast();
         //load lại danh sách nhân viên
@@ -448,6 +495,42 @@ export default {
     closeDialogWraning() {
       try {
         this.isShowDialogWarning = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteEmployee() {
+      try {
+        await HTTPEmployees.delete(`${this.employeeSelected.EmployeeId}`)
+          .then(() => {})
+          .catch((error) => {
+            this.handleErrorResponse(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /**
+     * Xác nhận dialog cảnh báo xóa
+     * Author: PDDUY (13/07/2023)
+     */
+    async confirmDialogWraning() {
+      try {
+        await this.deleteEmployee();
+        this.isShowDialogWarning = false;
+        //Khi xóa thành công
+        if (this.errors == 0) {
+          //Hiển thị toast thông báo xóa thành công
+          this.toastTitle =
+            this.$_MISAResource.TextVi.ToastMessage.Success.Title;
+          this.toastMsg =
+            this.$_MISAResource.TextVi.ToastMessage.Success.Delete;
+          this.showToast();
+          //load lại dữ liệu
+          await this.getEmployees();
+          //Ẩn loading
+          this.isShowLoading = false;
+        }
       } catch (error) {
         console.log(error);
       }
