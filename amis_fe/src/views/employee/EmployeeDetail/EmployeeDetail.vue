@@ -326,7 +326,7 @@ import MCheckbox from "@/components/base/input/checkbox/MCheckbox.vue";
 import MCombobox from "@/components/base/combobox/MCombobox.vue";
 import MRadio from "@/components/base/input/radio/MRadio.vue";
 import MDialogError from "@/components/base/dialog/MDialogError.vue";
-import { HTTPEmployees } from "@/js/api/callApi.js";
+import { HTTPEmployees } from "@/assets/js/api/callApi.js";
 // import MDialogWarning from '@/components/base/dialog/MDialogWarning.vue';
 export default {
   name: "EmployeeDetail",
@@ -734,7 +734,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../../css/base/icon.css);
-@import url(./employee-detail.css);
-</style>
+<style scoped></style>

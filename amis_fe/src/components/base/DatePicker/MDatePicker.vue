@@ -214,6 +214,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(./datepicker.css);
-</style>
+<style scoped></style>

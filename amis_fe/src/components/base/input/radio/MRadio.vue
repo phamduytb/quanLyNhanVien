@@ -44,7 +44,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../../../css/base/icon.css);
-@import url(./radio.css);
-</style>
+<style scoped></style>

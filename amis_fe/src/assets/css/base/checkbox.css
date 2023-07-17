@@ -19,7 +19,7 @@
 }
 
 .checkbox.checkbox--active {
-  background: url("../../../../assets/img/Sprites.64af8f61.svg") no-repeat -1295px -561px;
+  background: url("../../img/Sprites.64af8f61.svg") no-repeat -1295px -561px;
   width: 18px;
   height: 18px;
   background-color: var(--white-background-color);

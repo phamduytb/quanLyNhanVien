@@ -23,7 +23,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../../css/base/icon.css);
-@import url(./header.css);
-</style>
+<style scoped></style>

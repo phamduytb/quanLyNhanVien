@@ -19,8 +19,7 @@
 .sidebar-top__logo {
   width: 96px;
   height: 36px;
-  background: url(../../../assets/img/Logo_Module_TiengViet_White.66947422.svg)
-    no-repeat;
+  background: url(../../img/Logo_Module_TiengViet_White.66947422.svg) no-repeat;
   background-size: 96px 36px;
   margin-left: 16px;
   cursor: pointer;

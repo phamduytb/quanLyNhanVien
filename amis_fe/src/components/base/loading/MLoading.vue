@@ -8,6 +8,4 @@ export default {
   name: "MLoading",
 };
 </script>
-<style scoped>
-@import url(./loading.css);
-</style>
+<style scoped></style>

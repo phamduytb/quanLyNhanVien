@@ -9,16 +9,17 @@
 </template>
 
 <script>
-import TheSideBar from "./components/layout/sidebar/TheSidebar.vue"
-import TheHeader from "./components/layout/header/TheHeader.vue"
+import TheSideBar from "./components/layout/sidebar/TheSidebar.vue";
+import TheHeader from "./components/layout/header/TheHeader.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    TheSideBar, TheHeader
-  }
-}
+    TheSideBar,
+    TheHeader,
+  },
+};
 </script>
 
 <style>
-  @import url(@/css/main.css);
+@import url(@/assets/css/main.css);
 </style>

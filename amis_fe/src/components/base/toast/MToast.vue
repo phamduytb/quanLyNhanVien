@@ -34,7 +34,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../../css/base/icon.css);
-@import url(./toast.css);
-</style>
+<style scoped></style>

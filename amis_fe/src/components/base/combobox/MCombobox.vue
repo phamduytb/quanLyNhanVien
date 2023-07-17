@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import MISAEnum from "@/js/base/enum";
+import MISAEnum from "@/assets/js/base/enum";
 import axios from "axios";
 export default {
   name: "MCombobox",
@@ -235,6 +235,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(./combobox.css);
-</style>
+<style scoped></style>

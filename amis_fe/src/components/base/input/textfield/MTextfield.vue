@@ -91,7 +91,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../../../css/base/icon.css);
-@import url(./textfield.css);
-</style>
+<style scoped></style>

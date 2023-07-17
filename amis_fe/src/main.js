@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import MISAResource from "./js/base/resource.js";
-import MISAEnum from "./js/base/enum.js";
-import MISACommon from "./js/base/common.js";
+import MISAResource from "./assets/js/base/resource.js";
+import MISAEnum from "./assets/js/base/enum.js";
+import MISACommon from "./assets/js/base/common.js";
 import vueRouter from "./router/router";
 import vueEmitter from "tiny-emitter/instance";
 import axios from "axios";

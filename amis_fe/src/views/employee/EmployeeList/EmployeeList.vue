@@ -11,24 +11,40 @@
     </div>
 
     <div class="content-table">
-      <div class="table-header">
-        <div class="textfield-wrapper">
-          <input
-            type="text"
-            class="textfield__input input-icon"
-            placeholder="Tìm theo mã, tên nhân viên"
-          />
-          <div class="icon icon-wrap icon-search"></div>
-        </div>
-
-        <button class="btn-refresh">
-          <div
-            class="icon icon-24 icon-loading tooltip"
-            @click="btnLoadingOnClick"
-          >
-            <div class="tooltip-text">Lấy lại dữ liệu</div>
+      <div class="table-toolbar">
+        <div class="toolbar__left" v-if="isShowToolbarLeft">
+          <div class="toolbar__left--count">
+            Đã chọn: <b>{{ this.employeeListSelected.length }}</b>
           </div>
-        </button>
+          <div class="toolbar__btn-uncheck" @click="resetCheckAllEmployee">
+            Bỏ chọn
+          </div>
+          <div
+            class="toolbar__btn-delete-many"
+            @click="confirmDeleteMany(), (this.deleteMany = true)"
+          >
+            Xóa
+          </div>
+        </div>
+        <div class="toolbar__right">
+          <div class="textfield-wrapper">
+            <input
+              type="text"
+              class="textfield__input input-icon"
+              placeholder="Tìm theo mã, tên nhân viên"
+            />
+            <div class="icon icon-wrap icon-search"></div>
+          </div>
+
+          <button class="btn-refresh">
+            <div
+              class="icon icon-24 icon-loading tooltip"
+              @click="btnLoadingOnClick"
+            >
+              <div class="tooltip-text">Lấy lại dữ liệu</div>
+            </div>
+          </button>
+        </div>
       </div>
       <div class="table-main">
         <table id="tbEmployeeList">
@@ -90,7 +106,19 @@
                   this.employeeSelected.EmployeeId == employee.EmployeeId,
               }"
             >
-              <td><MCheckbox></MCheckbox></td>
+              <td>
+                <!-- <div class="checkbox-container">
+                  <div
+                    class="checkbox"
+                    @click="checkBoxOnClick(employee)"
+                    :class="{ 'checkbox--active': checkboxSelected }"
+                  ></div>
+                </div> -->
+                <MCheckbox
+                  v-model="checkboxSelected"
+                  @checkboxOnClick="checkboxOnClick(employee)"
+                ></MCheckbox>
+              </td>
               <td>{{ employee.EmployeeCode }}</td>
               <td>{{ employee.FullName }}</td>
               <td>{{ employee.GenderName }}</td>
@@ -217,7 +245,7 @@ import EmployeeDetail from "@/views/employee/EmployeeDetail/EmployeeDetail.vue";
 import MToast from "@/components/base/toast/MToast.vue";
 import MLoading from "@/components/base/loading/MLoading.vue";
 import MDialogWarning from "@/components/base/dialog/MDialogWarning.vue";
-import { HTTPEmployees } from "@/js/api/callApi.js";
+import { HTTPEmployees } from "@/assets/js/api/callApi.js";
 export default {
   name: "EmployeeList",
   components: {
@@ -230,6 +258,10 @@ export default {
   },
   data() {
     return {
+      //Điều kiện kiểm tra 1 checkbox trên bảng nhân viên được chọn hay không
+      checkboxSelected: false,
+      // Điều kiện hiển thị toolbar left trên bảng nhân viên
+      isShowToolbarLeft: false,
       //Điều kiện ẩn hiện form nhân viên
       isShowEmployeeForm: false,
       //Điều kiện ẩn hiện toast message
@@ -244,7 +276,9 @@ export default {
       employees: [],
       //Danh sách lỗi nhận được từ serve
       errors: [],
-      //Nhân viên được chọn để sửa
+      // Danh sách nhân viên được chọn
+      employeeListSelected: [],
+      //Nhân viên được chọn
       employeeSelected: {},
       // Tọa độ theo chiều ngang khi click chuột vào 1 phần tử (so với viewport)
       dropdownPositionX: 0,
@@ -308,6 +342,7 @@ export default {
     /**
      * Hàm xử lý response lỗi trả về từ API
      * @param {} res
+     * @author
      * Author: PDDUY(04/07/2023)
      */
     handleErrorResponse(res) {
@@ -535,11 +570,28 @@ export default {
         console.log(error);
       }
     },
+    // checkBoxOnClick() {
+    //   try {
+    //     if (!this.checkboxSelected) {
+    //       this.checkboxSelected = true;
+    //       this.employeeListSelected.push(employee);
+    //     }
+    //     if (
+    //       this.checkboxSelected &&
+    //       this.employeeListSelected.includes(employee)
+    //     ) {
+    //       this.checkboxSelected = false;
+    //       this.employeeListSelected.splice(employee);
+    //     }
+    //     if (this.employeeListSelected > 0) {
+    //       this.isShowToolbarLeft = true;
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   },
 };
 </script>
 
-<style scoped>
-@import url(../../../css/base/icon.css);
-@import url(./employee-list.css);
-</style>
+<style scoped></style>

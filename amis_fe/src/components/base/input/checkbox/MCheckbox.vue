@@ -18,6 +18,8 @@ export default {
     checkboxLabel: String,
     checkboxForm: Boolean,
   },
+  created() {},
+
   methods: {
     checkBoxOnClick() {
       this.isCheck = !this.isCheck;
@@ -31,7 +33,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url(../../../../css/base/icon.css);
-@import url(./checkbox.css);
-</style>
+<style scoped></style>
