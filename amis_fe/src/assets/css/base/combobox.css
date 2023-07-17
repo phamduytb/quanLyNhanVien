@@ -135,7 +135,7 @@
 }
 
 .error-bg{
-  background-color: #f34545;
+  background-color: black;
   color: #fff;
 }
 .combobox:hover .error-info {

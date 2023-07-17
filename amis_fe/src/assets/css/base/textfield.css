@@ -106,7 +106,7 @@
 }
 
 .error-bg{
-  background-color: #f34545;
+  background-color: black;
   color: #fff;
 }
 .textfield__main:hover .error-info {
